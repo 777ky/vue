@@ -1,0 +1,11 @@
+version: '2'
+services:
+  nginx:
+    image: nginx:latest
+    container_name: 'vue_special'
+    ports:
+      - '7777:7777'
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - .:/usr/share/nginx/html
+    network_mode: bridge
