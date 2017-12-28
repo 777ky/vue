@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja" prefix="og: http://ogp.me/ns#" class="static">
-<head id="head">
+<head>
+<meta charset="utf-8">
 </head>
 <body class="lyt-col-1 lyt-special">
 <div style="text-align:center;font-size:34px;background:#dcdcdc;padding:25px;letter-spacing:4px;">これは外部確認用ページです</div>
@@ -15,10 +16,18 @@
 <!--#include virtual="/_include/rwd/topic-path.html" -->
 <!-- ======================== トピックパスここまで =================================== -->
 
-<!-- <meta name="viewport" content="width=device-width">
-<meta name="robots" content="index,follow"> -->
+
+<div id="str-contents">
+<!-- ======================== メインコンテンツここから =========================== -->
 <div id="app"></div>
 
+<!-- ======================== メインコンテンツここまで =========================== -->
+
+<!-- /str-contents --></div>
+
+<!-- ======================== フッターここから =================================== -->
+<!--#include virtual="/_include/rwd/footer.html" -->
+<!-- ======================== フッターここまで =================================== -->
 
 <!-- /str-container --></div>
 <div style="text-align:center;font-size:34px;background:#dcdcdc;padding:25px;letter-spacing:4px;">これは外部確認用ページです</div>
@@ -41,6 +50,6 @@ $(function(){
 <script>
 const URL = '/w_special/hawaii/';
 </script>
-<script type="text/javascript" src="result/bundle.js"></script>
+<script src="result/bundle.js"></script>
 </body>
 </html>
