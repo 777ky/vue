@@ -9,7 +9,7 @@ module.exports = new Vue({
   },
   methods: {
     // 取得したら GET_AJAX_COMPLETE で通知する
-    get_ajax(url, name) {
+    get_ajax(url, name) {      
       // return axios.get(URL_BASE + url,{
       //   responseType: 'document'
       // })
