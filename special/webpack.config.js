@@ -7,6 +7,7 @@ module.exports = {
     filename: 'bundle.js'
   },
   module: {
+    // noParse: /es6-promise\.js$/,
     loaders: [
       {
         loader: 'babel-loader',
@@ -33,9 +34,9 @@ module.exports = {
     },
   },
   plugins: [
-    // new webpack.ProvidePlugin({
-    //   $: 'jquery'
-    // }),
+    new webpack.ProvidePlugin({
+      $: 'jquery'
+    }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"production"'
