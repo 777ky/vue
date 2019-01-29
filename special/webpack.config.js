@@ -1,9 +1,10 @@
 const path = require('path');
 const webpack = require('webpack')
 module.exports = {
+  mode: 'production',
   entry: './src/main.js',
   output: {
-    path: `${__dirname}/vue/result`,
+    path: `${__dirname}/app/scripts`,
     filename: 'bundle.js'
   },
   module: {

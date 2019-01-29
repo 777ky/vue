@@ -1,3 +1,3 @@
-npm install -g webpack babel
-npm install --save-dev webpack vue-loader vue-template-compiler babel-core babel-loader babel-preset-es2015
-npm install --save vue
+特集ページを読み込み表示させるスクリプトの途中。
+rwd.min.jsの作りがだめなため動的にscriptを読み込むとエラーになる。
+コードのサンプルとして一時保管しておく

@@ -1,0 +1,20 @@
+<html>
+<head>
+<title>一番シンプルなパターン</title>
+</head>
+<body>
+<div id="demo">
+<p>{{ message }}</p>
+<input v-model="message">
+</div>
+</body>
+<script type="text/javascript" src="./node_modules/vue/dist/vue.min.js"></script>
+<script type="text/javascript">
+new Vue({
+  el: '#demo',
+  data: {
+  message: 'hello world!'
+  }
+})
+</script>
+</html>
