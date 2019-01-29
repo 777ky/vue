@@ -1,12 +1,26 @@
 <template>
   <div>
-    <div v-html="result"></div>
-    <div>{{ result }}</div>
+    <!-- <div v-html="result"></div> -->
+    <ul class="hello_footer hello_footer2">
+      <li v-for="item in result">
+      {{ item.id }}:{{ item.name }}/{{ item.tel }}
+
+      </li>
+    </ul>
   </div>
 </template>
-
+<style scoped lang="scss">
+@import "../styles/todo.scss";
+.hello {
+  &_footer2{
+    color: #f00
+  }
+}
+</style>
 <script>
 import store from '../scripts/store';
+import "../styles/initialize.scss";
+import "../styles/master.scss";
 
 export default {
   data(){
@@ -14,16 +28,10 @@ export default {
       result: ''
     };
   },
-  methods:{
-    // appendScript: (script)=>{
-    // }
-  },
   created(){
-    const that = this;
     store.getAjax('https://jsondata.okiba.me/v1/json/ymC4X190129052320', 'result');
     store.$on('GET_AJAX_COMPLETE', ()=>{
-      // const str = store.getData('result');
-      that.result = store.getData('result');
+      this.result = store.getData('result');
     });
 
   },

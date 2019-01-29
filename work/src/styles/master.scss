@@ -1,0 +1,33 @@
+@import "./_core/_mixin";
+@import "./_core/_setting";
+
+html,body{
+  height:100%;
+}
+#app{
+  height:100%;
+}
+.str-container{
+  display: grid;
+  grid-template:
+  "header" 30px
+  "main"   1fr
+  "footer" 50px/
+   100%;
+  padding:10px;
+  background-color:#eee;
+  height:100%;
+  .str-header{
+    background-color: #666;
+    color:#fff;
+    grid-area: header;
+    margin:-10px -10px 0;
+    padding:10px 10px 0;
+  }
+  .str-main{
+    grid-area:main;
+  }
+  .str-footer{
+    grid-area:footer;
+  }
+}

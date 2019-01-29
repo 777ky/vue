@@ -39,34 +39,50 @@ module.exports = {
           ],
         },
 
-        // {
-        //   test: /\.(scss|css)/,
-        //   use: [
-        //       'style-loader',
-        //       {
-        //           loader: 'css-loader',
-        //           options: {
-        //               // オプションでCSS内のurl()メソッドの取り込みを禁止する
-        //               url: false,
-        //               // ソースマップ
-        //               sourceMap: true,
+        {
+          test: /\.(scss|css)/,
+          use: [
+              'style-loader',
+              {
+                  loader: 'css-loader',
+                  options: {
+                      // オプションでCSS内のurl()メソッドの取り込みを禁止する
+                      url: false,
+                      sourceMap: true,
+                      // 0 => no loaders (default);
+                      // 1 => postcss-loader;
+                      // 2 => postcss-loader, sass-loader
+                      importLoaders: 2
+                  },
+              },
+              {
+                loader: 'postcss-loader',
+                options: {
+                  sourceMap: true,
+                  plugins: [
+                    require('autoprefixer')({grid: true})
+                  ]
+                },
+              },
+              {
+                  loader: 'sass-loader',
+                  options: {
+                    // webpack側で共通のsassを読み込む場合
+                    // data: '@import "master.scss";',
+                    // includePaths: [path.resolve(__dirname, './src/styles/')],
+                    // ソースマップ
+                    sourceMap: true,
+                  }
+              }
 
-        //               // 0 => no loaders (default);
-        //               // 1 => postcss-loader;
-        //               // 2 => postcss-loader, sass-loader
-        //               importLoaders: 2
-        //           },
-        //       },
-        //       {
-        //           loader: 'sass-loader',
-        //           options: {
-        //               // ソースマップ
-        //               sourceMap: true,
-        //           }
-        //       }
-
-        //   ]
-        // }
+          ]
+        },
+        {
+          test: /\.(png|svg|jpg|gif)$/,
+          use: {
+            loader: 'url-loader',
+          }
+        },
 
       ]
     },

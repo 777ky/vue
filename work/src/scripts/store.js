@@ -13,7 +13,8 @@ module.exports = new Vue({
     getAjax(url, name){
       return axios.get(url)
       .then((res) => {
-        this.$set(this, name, res.data[0].name);
+        // this.$set(this, name, res.data[0].name);
+        this.$set(this, name, res.data);
         // $emit は、カスタム要素の発行するイベント
         this.$emit('GET_AJAX_COMPLETE');
       });
