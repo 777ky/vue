@@ -5,3 +5,7 @@ Nuxt.js doesn't supercharge these components.
 
 **This directory is not required, you can delete it if you don't want to use it.**
 
+componentsディレクトリにはVue.jsコンポーネントが含まれています。
+Nuxt.jsはこれらのコンポーネントをスーパーチャージしません。
+
+**このディレクトリは必須ではありません。使用したくない場合は削除できます。**
