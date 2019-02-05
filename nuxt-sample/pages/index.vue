@@ -1,6 +1,8 @@
 <template>
   <section class="container">
     <div>
+    <img src="https://cdn-ak.f.st-hatena.com/images/fotolife/k/ky777/20171221/20171221151814.png" alt="">
+    <img src="/text.jpg" alt="">
       <app-logo/>
       <div class="links">
         <a

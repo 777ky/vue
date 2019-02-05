@@ -1,3 +1,22 @@
+## TODO
+* firestoreからコレクションを取得できることを確認
+* localstrageにデータ保存して再度立ち上げ直すとデータがあるか確認
+https://qiita.com/sakapun/items/a0cf5698751ae70c8088
+https://b.0218.jp/20180216115001.html
+https://note.chatbox-inc.com/post/tec/nuxtjs/vuex-persistedstate/
+https://pizzamanz.net/web/vue/vuex-persistedstate/
+→vuex-persistedstateというのを使うといいらしい
+→ssrモードで使えない（windowがないため）
+https://qiita.com/sunecosuri/items/3544fb101cabd310acc3
+
+https://github.com/potato4d/nuxt-client-init-module
+yarn add nuxt-client-init-module
+
+* offlineでデータを蓄積しておき、onlineでDBへ保存したい
+https://qiita.com/horo/items/28bc624b8a26ffa09621
+→Background Syncというのをつかうといいらしい（iOS未対応）
+
+
 https://inside.dmm.com/entry/2018/04/10/nuxt-firebase
 
 JSONをajaxで読み込んで表示する

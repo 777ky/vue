@@ -18,7 +18,10 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
+import firebase from '@/plugins/firebase';
+import 'firebase/auth';
+
 export default {
   computed: {
     count () {
@@ -29,6 +32,13 @@ export default {
     }
   },
   methods: {
+    googleLogin: () => {
+
+      // const provider = new firebase.auth.GoogleAuthProvider()
+      // firebase.auth().signInWithRedirect(provider)
+
+      firebase.auth().signInWithRedirect(new firebase.auth.GoogleAuthProvider());
+    },
     addCount (e) {
       this.$store.commit('counter/add')
     }

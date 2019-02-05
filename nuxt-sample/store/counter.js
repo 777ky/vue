@@ -23,5 +23,14 @@ export const actions = {
   // },
   signOut({ commit }){
     commit('test', 1000)
+  },
+  nuxtClientInit ({ commit, state, dispatch }, { req }) {
+
+    console.log(localStorage.tttt);
+    localStorage.setItem('tttt', 'value');　
+    if (localStorage.accessToken) {
+      // commit('user/setToken', localStorage.token)
+    }
   }
 }
+
