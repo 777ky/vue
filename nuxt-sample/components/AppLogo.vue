@@ -14,8 +14,8 @@
   transform: rotateX(180deg);
   position: relative;
   overflow: hidden;
-  height: 180px;
-  width: 245px;
+  height: calc(180px/2);
+  width: calc(245px/2);
 }
 
 .Triangle {
@@ -27,36 +27,36 @@
 }
 
 .Triangle--one {
-  border-left: 105px solid transparent;
-  border-right: 105px solid transparent;
-  border-bottom: 180px solid #41B883;
+  border-left: calc(105px/2) solid transparent;
+  border-right: calc(105px/2) solid transparent;
+  border-bottom: calc(180px/2) solid #41B883;
 }
 
 .Triangle--two {
-  top: 30px;
-  left: 35px;
+  top: calc(30px/2);
+  left: calc(35px/2);
   animation: goright 0.5s linear forwards 3.5s;
-  border-left: 87.5px solid transparent;
-  border-right: 87.5px solid transparent;
-  border-bottom: 150px solid #3B8070;
+  border-left: calc(87.5px/2) solid transparent;
+  border-right: calc(87.5px/2) solid transparent;
+  border-bottom: calc(150px/2) solid #3B8070;
 }
 
 .Triangle--three {
-  top: 60px;
-  left: 35px;
+  top: calc(60px/2);
+  left: calc(35px/2);
   animation: goright 0.5s linear forwards 3.5s;
-  border-left: 70px solid transparent;
-  border-right: 70px solid transparent;
-  border-bottom: 120px solid #35495E;
+  border-left: calc(70px/2) solid transparent;
+  border-right: calc(70px/2) solid transparent;
+  border-bottom: calc(120px/2) solid #35495E;
 }
 
 .Triangle--four {
-  top: 120px;
-  left: 70px;
+  top: calc(120px/2);
+  left: calc(70px/2);
   animation: godown 0.5s linear forwards 3s;
-  border-left: 35px solid transparent;
-  border-right: 35px solid transparent;
-  border-bottom: 60px solid #fff;
+  border-left: calc(35px/2) solid transparent;
+  border-right: calc(35px/2) solid transparent;
+  border-bottom: calc(60px/2) solid #fff;
 }
 
 @keyframes turn {
@@ -67,13 +67,13 @@
 
 @keyframes godown {
   100% {
-    top: 180px;
+    top: calc(180px/2);
   }
 }
 
 @keyframes goright {
   100% {
-    left: 70px;
+    left: calc(70px/2);
   }
 }
 </style>

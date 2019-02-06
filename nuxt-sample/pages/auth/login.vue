@@ -1,73 +1,76 @@
 <template>
   <div>
-  <!--
-    <app-logo/>
-  <p v-if="authentication">Loading...</p>
-  <p>{{authentication}}</p>
-  -->
-  <button @click="doLogin">login</button>
-  <button @click="openModal(item)">modal</button>
-  <modal :val="postItem" v-if="showModal" @close="closeModal"></modal>
+  <p v-if="isAuthenticated">{{isAuthenticated}}</p>
+  <div v-if="!isAuthenticated">
+    <button @click="doLogin">login</button>
+  </div>
+  <div v-if="isAuthenticated">
+    <button @click="doLogout">logout</button>
+  </div>
   </div>
 </template>
 
 <script>
 import firebase from '@/plugins/firebase'
-import { mapActions,mapState } from 'vuex'
-import AppLogo from '~/components/AppLogo.vue'
-import modal from '~/components/modal.vue'
+import { mapActions,mapState,mapGetters } from 'vuex'
 
 export default {
-  async mounted () {
-    let user = await new Promise((resolve, reject) => {
-      firebase.auth().onAuthStateChanged((user) => resolve(user))
-    })
+  created(){
+    // (async () => {
+    //   try {
+    //       const {user, credential} = await firebase.auth().getRedirectResult();
+    //         console.log(user)
+    //   }catch (err) {
+    //   }
+    // })();
+    firebase.auth().onAuthStateChanged(
+      (user) => {
+        this.setUser(user)
+        // this.$router.push('/auth/')
+      }
+    );
+  },
+  // async mounted () {
+  mounted () {
+    console.log('mounted')
 
-    // setUser is mapped action from vuex
-    this.setUser(user)
+    // firebase.auth().onAuthStateChanged(
+    //   (user) => {
+    //     this.setUser(user)
+    //     console.log('change')
+    //     // this.$router.push('/auth/')
+    //   }
+    // );
 
-    // ログイン完了したらindexへ遷移
-    if (user) {
-      this.$router.push('/auth/')
-    }
+
   },
   data() {
     return {
-      // user: this.$store.state.user,
       showLoaging: false,
-      showModal: false,
-      postItem: '',
-      item: { id: 1, name: 'aのitem' },
     }
   },
-  // computed: {
-  //   ...mapState([
-  //     'authentication'
-  //   ]),
-  // },
+  computed: {
+    // ...mapState([
+      // 'authentication'
+    // ]),
+    ...mapGetters([
+      'isAuthenticated'
+    ])
+  },
   methods: {
     ...mapActions([
       'login',
+      'logout',
       'setUser',
-      'authentication'
+      // 'setAuthentication'
     ]),
     doLogin () {
       this.login()
-        .then(() => console.log('resloved'))
-        .catch((err) => console.log(err))
     },
-    openModal(item) {
-      this.postItem = item;
-      this.showModal = true;
-    },
-    closeModal() {
-      this.showModal = false;
+    doLogout () {
+      this.logout()
     }
   },
-  components: {
-    AppLogo,
-    modal
-  }
 }
 </script>
 

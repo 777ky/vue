@@ -1,4 +1,4 @@
 // nuxtClientInitを使うためのプラグイン
 export default async (ctx) => {
-  await ctx.store.dispatch('counter/nuxtClientInit', ctx)
+  await ctx.store.dispatch('nuxtClientInit', ctx)
 }

@@ -1,34 +1,31 @@
 ## TODO
 * firestoreからコレクションを取得できることを確認
+
 * localstrageにデータ保存して再度立ち上げ直すとデータがあるか確認
 https://qiita.com/sakapun/items/a0cf5698751ae70c8088
 https://b.0218.jp/20180216115001.html
 https://note.chatbox-inc.com/post/tec/nuxtjs/vuex-persistedstate/
 https://pizzamanz.net/web/vue/vuex-persistedstate/
+https://qiita.com/sunecosuri/items/3544fb101cabd310acc3
 →vuex-persistedstateというのを使うといいらしい
 →ssrモードで使えない（windowがないため）
-https://qiita.com/sunecosuri/items/3544fb101cabd310acc3
 
+* nuxt-client-init-module
 https://github.com/potato4d/nuxt-client-init-module
-yarn add nuxt-client-init-module
 
 * offlineでデータを蓄積しておき、onlineでDBへ保存したい
 https://qiita.com/horo/items/28bc624b8a26ffa09621
 →Background Syncというのをつかうといいらしい（iOS未対応）
 
-
+* auth
+http://www.sky-limit-future.com/entry/nuxtjs_firebase_authentication
 https://inside.dmm.com/entry/2018/04/10/nuxt-firebase
 
-JSONをajaxで読み込んで表示する
+ * 永続化について
+ https://firebase.google.com/docs/auth/web/auth-state-persistence?hl=ja
 
-一番シンプルなサンプル確認（vueのモジュールを読み込んで使う。bable/webpackなどなし）
+## 一番シンプルなサンプル確認（vueのモジュールを読み込んで使う。bable/webpackなどなし）
 * http://localhost:3000/simple/index.html
-
-## 調べること
-* vuex
-状態管理
-https://vuex.vuejs.org/ja/guide/actions.html
-https://tech.studyplus.co.jp/entry/2019/01/28/094825
 
 * [Nuxt.js](https://ja.nuxtjs.org/guide/)
   * Vue 2
@@ -63,15 +60,11 @@ yarnを利用した場合、途中でnpmを使うと動かなくなるときが�
     dev: true, //開発環境でもPWA
   }
 ```
-
 [onesignal](https://onesignal.com/)
 を利用したpush通知
-
+→コンソールにエラー出るから一旦ストップしている
 `yarn add '@nuxtjs/onesignal'`
 
-
-https://simple-it-life.com/2018/09/01/vue/
-https://html5experts.jp/potato4d/24346/
 ```
 $ npm install -g vue-cli 
 $ vue init nuxt-community/starter-template nuxt_sample
@@ -108,4 +101,42 @@ firebase deploy
 <script>
 import "../styles/master.scss";
 </script>
+```
+
+* awaitサンプル
+```
+await new Promise((resolve, reject) => {
+  firebase.auth().onAuthStateChanged(
+    (user) => {
+      this.setUser(user)
+      this.$router.push('/auth/')
+      resolve(user)
+    }
+  )
+})
+```
+
+* authコンポーネントを作る
+```
+[1-1]
+user情報をlocalstorageから取得、
+user情報がない場合は[1-1]
+user情報がある場合は[1-3]
+---------
+[login]
+---------
+　↓
+[1-2]
+user情報取得中はspinner表示
+---------
+Loading...
+---------
+　↓
+
+[1-3]
+user情報をlocalstorageへ格納する
+---------
+user.name
+[logout]
+---------
 ```

@@ -1,0 +1,232 @@
+[debug] [2019-02-06T09:47:44.532Z] ----------------------------------------------------------------------
+[debug] [2019-02-06T09:47:44.534Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\yu-kurihara\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2019-02-06T09:47:44.534Z] CLI Version:   6.3.0
+[debug] [2019-02-06T09:47:44.534Z] Platform:      win32
+[debug] [2019-02-06T09:47:44.534Z] Node Version:  v10.1.0
+[debug] [2019-02-06T09:47:44.535Z] Time:          Wed Feb 06 2019 18:47:44 GMT+0900 (東京 (標準時))
+[debug] [2019-02-06T09:47:44.535Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-02-06T09:47:44.551Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-02-06T09:47:44.551Z] > authorizing via signed-in user
+[debug] [2019-02-06T09:47:44.551Z] [iam] checking project vue-labs for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2019-02-06T09:47:44.553Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2019-02-06T09:47:44.553Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2019-02-06T09:47:44.733Z] <<< HTTP RESPONSE 200
+[debug] [2019-02-06T09:47:44.743Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/vue-labs:testIamPermissions  
+
+[debug] [2019-02-06T09:47:45.601Z] <<< HTTP RESPONSE 200
+[debug] [2019-02-06T09:47:45.603Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/vue-labs  
+ 
+[debug] [2019-02-06T09:47:46.410Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'vue-labs'...
+[info] 
+[info] i  deploying hosting
+[debug] [2019-02-06T09:47:46.414Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/vue-labs/versions  
+
+[debug] [2019-02-06T09:47:47.518Z] <<< HTTP RESPONSE 500
+[debug] [2019-02-06T09:47:47.518Z] <<< HTTP RESPONSE BODY
+[error] 
+[error] Error: HTTP Error: 500, Internal error encountered.
+[debug] [2019-02-06T09:47:47.612Z] Error Context: {
+  "body": {
+    "error": {
+      "code": 500,
+      "message": "Internal error encountered.",
+      "status": "INTERNAL"
+    }
+  },
+  "response": {
+    "statusCode": 500,
+    "body": {
+      "error": {
+        "code": 500,
+        "message": "Internal error encountered.",
+        "status": "INTERNAL"
+      }
+    },
+    "headers": {
+      "vary": "X-Origin, Referer, Origin,Accept-Encoding",
+      "content-type": "application/json; charset=UTF-8",
+      "date": "Wed, 06 Feb 2019 09:47:47 GMT",
+      "server": "ESF",
+      "cache-control": "private",
+      "x-xss-protection": "1; mode=block",
+      "x-frame-options": "SAMEORIGIN",
+      "x-content-type-options": "nosniff",
+      "alt-svc": "quic=\":443\"; ma=2592000; v=\"44,43,39\"",
+      "accept-ranges": "none",
+      "transfer-encoding": "chunked"
+    },
+    "request": {
+      "uri": {
+        "protocol": "https:",
+        "slashes": true,
+        "auth": null,
+        "host": "firebasehosting.googleapis.com",
+        "port": 443,
+        "hostname": "firebasehosting.googleapis.com",
+        "hash": null,
+        "search": null,
+        "query": null,
+        "pathname": "/v1beta1/sites/vue-labs/versions",
+        "path": "/v1beta1/sites/vue-labs/versions",
+        "href": "https://firebasehosting.googleapis.com/v1beta1/sites/vue-labs/versions"
+      },
+      "method": "POST"
+    }
+  }
+}
+[debug] [2019-02-06T09:48:01.806Z] ----------------------------------------------------------------------
+[debug] [2019-02-06T09:48:01.808Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\yu-kurihara\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2019-02-06T09:48:01.809Z] CLI Version:   6.3.0
+[debug] [2019-02-06T09:48:01.809Z] Platform:      win32
+[debug] [2019-02-06T09:48:01.809Z] Node Version:  v10.1.0
+[debug] [2019-02-06T09:48:01.810Z] Time:          Wed Feb 06 2019 18:48:01 GMT+0900 (東京 (標準時))
+[debug] [2019-02-06T09:48:01.810Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-02-06T09:48:01.822Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-02-06T09:48:01.823Z] > authorizing via signed-in user
+[debug] [2019-02-06T09:48:01.823Z] [iam] checking project vue-labs for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2019-02-06T09:48:01.825Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/vue-labs:testIamPermissions  
+
+[debug] [2019-02-06T09:48:02.561Z] <<< HTTP RESPONSE 200
+[debug] [2019-02-06T09:48:02.563Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/vue-labs  
+ 
+[debug] [2019-02-06T09:48:03.273Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'vue-labs'...
+[info] 
+[info] i  deploying hosting
+[debug] [2019-02-06T09:48:03.277Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/vue-labs/versions  
+
+[debug] [2019-02-06T09:48:04.335Z] <<< HTTP RESPONSE 500
+[debug] [2019-02-06T09:48:04.335Z] <<< HTTP RESPONSE BODY
+[error] 
+[error] Error: HTTP Error: 500, Internal error encountered.
+[debug] [2019-02-06T09:48:04.428Z] Error Context: {
+  "body": {
+    "error": {
+      "code": 500,
+      "message": "Internal error encountered.",
+      "status": "INTERNAL"
+    }
+  },
+  "response": {
+    "statusCode": 500,
+    "body": {
+      "error": {
+        "code": 500,
+        "message": "Internal error encountered.",
+        "status": "INTERNAL"
+      }
+    },
+    "headers": {
+      "vary": "X-Origin, Referer, Origin,Accept-Encoding",
+      "content-type": "application/json; charset=UTF-8",
+      "date": "Wed, 06 Feb 2019 09:48:04 GMT",
+      "server": "ESF",
+      "cache-control": "private",
+      "x-xss-protection": "1; mode=block",
+      "x-frame-options": "SAMEORIGIN",
+      "x-content-type-options": "nosniff",
+      "alt-svc": "quic=\":443\"; ma=2592000; v=\"44,43,39\"",
+      "accept-ranges": "none",
+      "transfer-encoding": "chunked"
+    },
+    "request": {
+      "uri": {
+        "protocol": "https:",
+        "slashes": true,
+        "auth": null,
+        "host": "firebasehosting.googleapis.com",
+        "port": 443,
+        "hostname": "firebasehosting.googleapis.com",
+        "hash": null,
+        "search": null,
+        "query": null,
+        "pathname": "/v1beta1/sites/vue-labs/versions",
+        "path": "/v1beta1/sites/vue-labs/versions",
+        "href": "https://firebasehosting.googleapis.com/v1beta1/sites/vue-labs/versions"
+      },
+      "method": "POST"
+    }
+  }
+}
+[debug] [2019-02-06T09:49:20.514Z] ----------------------------------------------------------------------
+[debug] [2019-02-06T09:49:20.519Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\yu-kurihara\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2019-02-06T09:49:20.519Z] CLI Version:   6.3.1
+[debug] [2019-02-06T09:49:20.519Z] Platform:      win32
+[debug] [2019-02-06T09:49:20.519Z] Node Version:  v10.1.0
+[debug] [2019-02-06T09:49:20.520Z] Time:          Wed Feb 06 2019 18:49:20 GMT+0900 (東京 (標準時))
+[debug] [2019-02-06T09:49:20.520Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-02-06T09:49:20.531Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-02-06T09:49:20.532Z] > authorizing via signed-in user
+[debug] [2019-02-06T09:49:20.532Z] [iam] checking project vue-labs for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2019-02-06T09:49:20.534Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/vue-labs:testIamPermissions  
+
+[debug] [2019-02-06T09:49:20.759Z] <<< HTTP RESPONSE 200
+[debug] [2019-02-06T09:49:20.760Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/vue-labs  
+ 
+[debug] [2019-02-06T09:49:21.337Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'vue-labs'...
+[info] 
+[info] i  deploying hosting
+[debug] [2019-02-06T09:49:21.341Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/vue-labs/versions  
+
+[debug] [2019-02-06T09:49:22.347Z] <<< HTTP RESPONSE 500
+[debug] [2019-02-06T09:49:22.347Z] <<< HTTP RESPONSE BODY
+[error] 
+[error] Error: HTTP Error: 500, Internal error encountered.
+[debug] [2019-02-06T09:49:22.447Z] Error Context: {
+  "body": {
+    "error": {
+      "code": 500,
+      "message": "Internal error encountered.",
+      "status": "INTERNAL"
+    }
+  },
+  "response": {
+    "statusCode": 500,
+    "body": {
+      "error": {
+        "code": 500,
+        "message": "Internal error encountered.",
+        "status": "INTERNAL"
+      }
+    },
+    "headers": {
+      "vary": "X-Origin, Referer, Origin,Accept-Encoding",
+      "content-type": "application/json; charset=UTF-8",
+      "date": "Wed, 06 Feb 2019 09:49:22 GMT",
+      "server": "ESF",
+      "cache-control": "private",
+      "x-xss-protection": "1; mode=block",
+      "x-frame-options": "SAMEORIGIN",
+      "x-content-type-options": "nosniff",
+      "alt-svc": "quic=\":443\"; ma=2592000; v=\"44,43,39\"",
+      "accept-ranges": "none",
+      "transfer-encoding": "chunked"
+    },
+    "request": {
+      "uri": {
+        "protocol": "https:",
+        "slashes": true,
+        "auth": null,
+        "host": "firebasehosting.googleapis.com",
+        "port": 443,
+        "hostname": "firebasehosting.googleapis.com",
+        "hash": null,
+        "search": null,
+        "query": null,
+        "pathname": "/v1beta1/sites/vue-labs/versions",
+        "path": "/v1beta1/sites/vue-labs/versions",
+        "href": "https://firebasehosting.googleapis.com/v1beta1/sites/vue-labs/versions"
+      },
+      "method": "POST"
+    }
+  }
+}

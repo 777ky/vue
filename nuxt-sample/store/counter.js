@@ -16,21 +16,8 @@ export const mutations = {
 }
 
 export const actions = {
-  // async signIn({ commit }){
-    // ログイン処理
-    // const isSignedIn = await ...
-    // commit('setSignInState', isSignedIn)
-  // },
   signOut({ commit }){
     commit('test', 1000)
   },
-  nuxtClientInit ({ commit, state, dispatch }, { req }) {
-
-    console.log(localStorage.tttt);
-    localStorage.setItem('tttt', 'value');　
-    if (localStorage.accessToken) {
-      // commit('user/setToken', localStorage.token)
-    }
-  }
 }
 

@@ -11,5 +11,4 @@ if (!firebase.apps.length) {
     messagingSenderId: process.env.MESSAGINGSENDERID
   })
 }
-
 export default firebase

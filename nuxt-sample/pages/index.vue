@@ -1,20 +1,16 @@
 <template>
   <section class="container">
     <div>
-    <img src="https://cdn-ak.f.st-hatena.com/images/fotolife/k/ky777/20171221/20171221151814.png" alt="">
-    <img src="/text.jpg" alt="">
-      <app-logo/>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener"
-          class="button--green">Documentation</a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener"
-          class="button--grey">GitHub</a>
+    <!-- cacheFirstのサンプル -->
+    <div><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/k/ky777/20171221/20171221151814.png" alt="" width="100" height="10"></div>
+    <!-- 通常キャッシュできるかのサンプル -->
+    <div><img src="/text.jpg" alt="" width="50" height="10"></div>
+
+    <app-logo/>
+
+    <div class="links">
+        <a href="/auth/login/" class="button--green">login</a>
+        <a href="/page1/" class="button--green">page1</a>
       </div>
     </div>
   </section>
