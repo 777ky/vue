@@ -8,9 +8,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-import firebase from '@/plugins/firebase';
-// import 'firebase/auth';
 import auth from '~/components/auth.vue';
 
 export default {

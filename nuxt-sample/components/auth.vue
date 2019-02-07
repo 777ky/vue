@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div>{{isDuring}}</div>
-    <!--
       <p v-if="isAuthenticated">{{isAuthenticated}}</p>
-    -->
     <div v-if="!isAuthenticated">
       <button @click="doLogin">login</button>
     </div>
@@ -24,8 +21,7 @@ export default {
       'isAuthenticated'
     ]),
     ...mapState([
-      'ls',
-      'isDuring'
+      'localStorage',
     ]),
 
   },
@@ -36,44 +32,14 @@ export default {
       'setUser'
     ]),
     doLogin () {
-      // this.isDuring = true;
       this.login()
     },
     doLogout () {
-      this.logout()
+      this.logout().then(()=>{
+        console.log('logout')
+      })
     }
-  },
-  data() {
-    return {
-      // isDuring: false,
-    }
-  },
-  created(){
-
-    console.log(this.ls)
-
-
-    firebase.auth().getRedirectResult().then(
-      result=>{
-        // console.log('result')
-        // console.log(result)
-        // if (result.credential) {
-        //   this.setUser(result.user)
-        // }
-        // this.isDuring = true;
-      }
-    ).catch(err=>console.log(err));
-
-    firebase.auth().onAuthStateChanged(
-    (user) => {
-      this.setUser(user)
-      console.log('change')
-      // this.$router.push('/auth/')
-    });
-  },
-  mounted() {
-
-  },
+  }
 }
 </script>
 

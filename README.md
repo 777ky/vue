@@ -119,20 +119,20 @@ await new Promise((resolve, reject) => {
 * authコンポーネントを作る
 ```
 [1-1]
-user情報をlocalstorageから取得、
-user情報がない場合は[1-1]
-user情報がある場合は[1-3]
+accessToken情報をlocalstorageから取得、
+accessToken情報がない場合は[1-1]
+accessToken情報がある場合は[1-3]
 ---------
 [login]
 ---------
 　↓
 [1-2]
+redirectの中でloginを呼び出し
 user情報取得中はspinner表示
 ---------
 Loading...
 ---------
 　↓
-
 [1-3]
 user情報をlocalstorageへ格納する
 ---------
@@ -140,3 +140,69 @@ user.name
 [logout]
 ---------
 ```
+  // getRedirectResult() でリダイレクト系処理の結果の取得、onAuthStateChanged() で認証状態変更の待ち受けを行うことになります。
+
+* onAuthStateChanged
+ * signOutではイベント発生しない
+
+// return new Promise((resolve, reject) => {
+//   firebase.auth().signInWithRedirect(googleProvider)
+//     .then(() => {
+//       //signInWithRedirectは呼ばれたところに戻るだけっぽい
+//       resolve()
+//     })
+//     .catch((err) => {
+//       reject(err)
+//     })
+// })
+
+
+    // (async()=>{
+    //   await new Promise((resolve, reject) => {
+    //     firebase.auth().getRedirectResult().then(
+    //       result=>{
+    //         // ログアウトしても値がのこっている？
+    //         // ログアウト完了する前なので値があるのか・・・
+    //         console.log('result')
+
+    //         if(!result.credential){
+    //         }else {
+    //           // this.setLocalStorage(result.credential)
+    //           // console.log('result')
+    //           // this.setUser(result.user)
+    //           // this.$router.push('/login/')
+    //         }
+    //         resolve()
+    //       }
+    //     ).catch(err=>{
+    //       console.log(err)
+    //       reject(err)
+    //     })
+    //   })
+    // })()
+
+    async test(){
+        return new Promise((resolve, reject) => {
+          firebase.auth().getRedirectResult().then(
+            result=>{
+
+              console.log('result')
+              resolve()
+            }
+          ).catch(err=>{
+            console.log(err)
+            reject(err)
+          })
+        })
+
+    },
+    // firebase.auth().onAuthStateChanged(
+    // (result) => {
+    //     if(!result){
+    //       // const googleProvider = new firebase.auth.GoogleAuthProvider()
+    //       // firebase.auth().signInWithRedirect(googleProvider)
+    //     }else {
+    //       // this.setUser(result.user)
+    //       // this.$router.push('/login/')
+    //     }
+    // });
