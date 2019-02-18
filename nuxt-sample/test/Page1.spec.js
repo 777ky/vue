@@ -1,14 +1,10 @@
 // asyncのテストに必要
 import 'babel-polyfill'
-import { mount,createLocalVue,shallowMount }
+import { mount,createLocalVue,shallowMount,shallow }
 from '@vue/test-utils'
 import Vuex from 'vuex'
 import Page1 from '@/pages/page1/'
-
-// import * as Store from '@/store'
 import Store from '@/store/counter'
-
-import { cloneDeep } from 'lodash'
 
 import axios from 'axios'
 
@@ -23,7 +19,25 @@ describe('Page1/index.vue', () => {
   let String
   beforeEach(() => {
     counter = {
-      namespaced: true
+      namespaced: true,
+      actions: {
+        addCount: jest.fn(),
+        setInit: jest.fn(),
+        setData: jest.fn()
+      },
+      state:{
+        count:10,
+        result:[]
+      },
+      mutations:{
+        addCount: jest.fn(),
+        setInit: jest.fn(),
+        setData: jest.fn()
+      },
+      // getters: {
+      //   getComponent: () => '',
+      //   getButton: () => ''
+      // }
     }
     store = new Vuex.Store({
       modules: {
@@ -34,30 +48,42 @@ describe('Page1/index.vue', () => {
       store: store,
       localVue
     })
-    counter = {
-      count: 10,
-      result:[]
-    }
-    store.replaceState({ counter: counter})
+    // counter = {
+    //   count: 0,
+    //   result:[]
+    // }
+    // store.replaceState({ counter: counter})
+    // console.log(store.state.counter)
+    console.log(counter.count);
+  })
 
-    console.log(store.state.counter)
+  test('count=10であること', () => {
+    const p = wrapper.find('.cnt')
+    // console.log(p.text())
+    expect(p.text()).toBe('count=10')
   })
 
   // 「+」ボタンのクリックテスト
-  // it('commits "increment" when "+" button is clicked', function() {
-  //   const wrapper = shallowMount(Page1, {
-  //     store,
-  //     localVue
-  //   });
-  //   // wrapper.find(".plus-button").trigger("click");
-  //   // expect(mutations.increment).toHaveBeenCalled();
-  // });
+  it('「+」ボタンのクリックでaddCountが呼び出されること', () =>{
 
-  test('count=10であること', () => {
-    // const p = wrapper.find('p')
-    const p = wrapper.find('.cnt')
-    console.log(p.text())
-    expect(p.text()).toBe('count=10')
+    // expect(wrapper.find('.cnt').text()).toContain('count=0')
+
+    wrapper.find(".add-btn").trigger("click");
+    // console.log(counter.actions.addCount)
+    expect(counter.actions.addCount).toHaveBeenCalled()
+
+    // expect(wrapper.find('.cnt').text()).toContain('count=1')
+
+  });
+
+  it('matches snapshot', () => {
+    // const items = ['item 1', 'item 2']
+    // const wrapper = shallowMount(List, {
+    //   propsData: { items }
+    // })
+    // const wrap = shallowMount(AppLogo)
+    expect(wrapper.html()).toMatchSnapshot()
   })
+
 
 })

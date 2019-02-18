@@ -2,7 +2,7 @@
   <section class="container">
     <div>
       <p class="cnt">count={{count}}</p>
-      <button @click="add">+</button>
+      <button class="add-btn" @click="add">+</button>
       <!--
       <button @click="$store.dispatch('counter/setInit')">0</button>
       -->

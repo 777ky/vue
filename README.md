@@ -35,6 +35,8 @@ https://qiita.com/ykhirao/items/8e8a9547a693c677813c
 
 https://qiita.com/_P0cChi_/items/41a0b84da924718f7c05
 
+https://tech.fusic.co.jp/web/vue-component-testing-with-vuex/
+
 lodash
 https://techblog.kayac.com/2017-12-2_lodash
 ユーティリティー（なんか便利）関数を集めたやつ
