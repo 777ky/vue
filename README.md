@@ -1,6 +1,22 @@
 ## TODO
 * storybook
 https://qiita.com/SotaSuzuki/items/b20167ee811aa3bd29df
+
+https://qiita.com/tk07Sky/items/11c941d4c4d3ed8a322a
+
+```
+$ npm i -g @storybook/cli
+$ cd my-project
+$ getstorybook 
+```
+"@storybook/vue": "^3.4.11",
+"@storybook/addon-actions": "^3.4.11",
+"@storybook/addon-links": "^3.4.11",
+"@storybook/addons": "^3.4.11",
+3系でないと動かないらしい
+
+@storybook/vue@3 @storybook/addon-actions@3 @storybook/addon-links@3 @storybook/addons@3
+
 * jestそろそろ
 https://qiita.com/akihiro-iwata/items/baceebd00b6973d67456
 
