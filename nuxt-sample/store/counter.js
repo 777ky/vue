@@ -4,20 +4,26 @@ export const state = () => ({
 })
 
 export const mutations = {
-  add(state) {
+  addCount(state) {
     state.count += 1
   },
-  test(state, num){
-    state.count = num
+  setInit(state, payload){
+    state.count = payload
   },
-  setData(state, result){
-    state.result = result;
+  setData(state, payload){
+    state.result = payload;
   }
 }
 
 export const actions = {
-  signOut({ commit }){
-    commit('test', 1000)
+  addCount({ commit }){
+    commit('addCount')
   },
+  setInit({ commit,state }){
+    commit('setInit', 0)
+  },
+  setData({ commit ,result}){
+    commit('setData', result)
+  }
 }
 

@@ -1,8 +1,5 @@
 import firebase from '@/plugins/firebase'
-
-
 export const strict = false
-
 export const state = () => ({
   localStorage: null,
   user: null

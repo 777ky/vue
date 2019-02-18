@@ -1,4 +1,45 @@
 ## TODO
+* storybook
+https://qiita.com/SotaSuzuki/items/b20167ee811aa3bd29df
+* jestそろそろ
+https://qiita.com/akihiro-iwata/items/baceebd00b6973d67456
+
+↓モジュールの記述などが古くなってしまったぽいけど、
+テスト内容が勉強になる
+https://qiita.com/rhistoba/items/6e90e2c51e8ad1875ac0#jest%E3%81%AB%E3%82%88%E3%82%8B%E3%83%86%E3%82%B9%E3%83%88
+
+https://github.com/vuejs/vue-test-utils-jest-example
+
+
+```
+$ yarn add --dev jest @vue/test-utils babel-jest vue-jest jest-serializer-vue babel-preset-env
+
+$ yarn add --dev babel-polyfill
+$ yarn add --dev syntax-object-rest-spread
+
+jest
+@vue/test-utils
+babel-jest (for ES2015+ features in tests)
+vue-jest (for handling *.vue files in tests)
+jest-serializer-vue(for snapshot tests)
+babel-preset-env
+```
+https://vue-test-utils.vuejs.org/ja/guides/getting-started.html
+
+* shallowMountとmountの違い
+https://qiita.com/ykhirao/items/8e8a9547a693c677813c
+* mount は子コンポーネントの html をマウントしてくれる
+* shallowMount は子コンポーネントの html をマウントしない
+* shallowMount + stubs は子コンポーネントの html をstubでマウントできる
+* TodoContainer.methods でメソッドだけのテストは意外に便利
+
+https://qiita.com/_P0cChi_/items/41a0b84da924718f7c05
+
+lodash
+https://techblog.kayac.com/2017-12-2_lodash
+ユーティリティー（なんか便利）関数を集めたやつ
+めっちゃかるい
+
 * firestoreからコレクションを取得できることを確認
 
 * localstrageにデータ保存して再度立ち上げ直すとデータがあるか確認
