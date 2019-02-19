@@ -4,7 +4,12 @@ import { mount,createLocalVue,shallowMount,shallow }
 from '@vue/test-utils'
 import Vuex from 'vuex'
 import Page1 from '@/pages/page1/'
-import Store from '@/store/counter'
+// import Store from '@/store/counter'
+import {state,mutations,actions} from '@/store/counter'
+
+// ミューテーションの分割束縛
+const { addCount } = mutations
+
 
 import axios from 'axios'
 
@@ -12,78 +17,75 @@ const localVue = createLocalVue()
 localVue.use(Vuex)
 
 describe('Page1/index.vue', () => {
-  let wrapper
-  let store
   let counter
-  let count
-  let String
+  let store
+  let wrapper
+
+  // let count
+  // let String
+
   beforeEach(() => {
     counter = {
       namespaced: true,
-      actions: {
-        addCount: jest.fn(),
-        setInit: jest.fn(),
-        setData: jest.fn()
-      },
-      state:{
-        count:10,
-        result:[]
-      },
+      state,
+      // state:{
+      //   count:0,
+      //   result:[]
+      // },
       mutations:{
         addCount: jest.fn(),
         setInit: jest.fn(),
         setData: jest.fn()
       },
-      // getters: {
-      //   getComponent: () => '',
-      //   getButton: () => ''
-      // }
+      actions: {
+        addCount: jest.fn(),
+        setInit: jest.fn(),
+        setData: jest.fn()
+      }
     }
+
     store = new Vuex.Store({
       modules: {
         counter
       }
     })
-    wrapper = mount(Page1, {
-      store: store,
+
+    wrapper = shallowMount(Page1, {
+      store,
       localVue
     })
-    // counter = {
-    //   count: 0,
-    //   result:[]
-    // }
-    // store.replaceState({ counter: counter})
-    // console.log(store.state.counter)
-    console.log(counter.count);
   })
 
-  test('count=10であること', () => {
+  it('初期のテキストはcount=0であること', () => {
     const p = wrapper.find('.cnt')
-    // console.log(p.text())
-    expect(p.text()).toBe('count=10')
+    expect(p.text()).toBe('count=0')
   })
 
-  // 「+」ボタンのクリックテスト
   it('「+」ボタンのクリックでaddCountが呼び出されること', () =>{
-
-    // expect(wrapper.find('.cnt').text()).toContain('count=0')
+    // console.log(store.state.counter)
+    // console.log(actions.addCount)
+    // console.log(counter.actions.addCount)
 
     wrapper.find(".add-btn").trigger("click");
-    // console.log(counter.actions.addCount)
+    // TODO:なんとなくだけど、functionがコールされたかどうかはモックをつくって確認するっぽい？
     expect(counter.actions.addCount).toHaveBeenCalled()
-
-    // expect(wrapper.find('.cnt').text()).toContain('count=1')
-
   });
 
+  it('mutations addCountが呼び出されるとcountの値が1になること', () => {
+    // store.commit('counter/addCount')
+    addCount(store.state.counter)
+    expect(store.state.counter.count).toBe(1)
+  })
+
   it('matches snapshot', () => {
-    // const items = ['item 1', 'item 2']
-    // const wrapper = shallowMount(List, {
-    //   propsData: { items }
-    // })
-    // const wrap = shallowMount(AppLogo)
     expect(wrapper.html()).toMatchSnapshot()
   })
 
+  // TODO:actionのaddCountをdispatchしたい
+  // it('mutations addCountが呼び出されるとcountの値が1になること', () => {
+  //   store.dispatch('counter/addCount')
+  //   console.log(store.state.counter.count)
+  //   expect(store.state.counter.count).toBe(1)
+  // })
 
 })

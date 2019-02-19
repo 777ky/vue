@@ -1,0 +1,73 @@
+// asyncのテストに必要
+import 'babel-polyfill'
+import { mount,createLocalVue,shallowMount,shallow }
+from '@vue/test-utils'
+import Vuex from 'vuex'
+import Page1 from '@/pages/page1/'
+import Store from '@/store/counter'
+
+import axios from 'axios'
+
+const localVue = createLocalVue()
+localVue.use(Vuex)
+
+describe('Page1/index.vue', () => {
+  let wrapper
+  let store
+  let counter
+  let count
+  let String
+  beforeEach(() => {
+    counter = {
+      namespaced: true,
+      state:{
+        count:0,
+        result:[]
+      },
+      mutations:{
+        addCount: jest.fn(),
+        setInit: jest.fn(),
+        setData: jest.fn()
+      },
+      actions: {
+        addCount: jest.fn(),
+        setInit: jest.fn(),
+        setData: jest.fn()
+      },
+      // getters: {
+      //   getComponent: () => '',
+      //   getButton: () => ''
+      // }
+    }
+    store = new Vuex.Store({
+      modules: {
+        counter
+      }
+    })
+    wrapper = shallowMount(Page1, {
+      store: store,
+      localVue
+    })
+    // wrapper = mount(Page1, {
+    //   store: store,
+    //   localVue
+    // })
+  })
+
+  it('count=0であること', () => {
+    const p = wrapper.find('.cnt')
+    expect(p.text()).toBe('count=0')
+  })
+
+  it('「+」ボタンのクリックでaddCountが呼び出されること', () =>{
+
+    wrapper.find(".add-btn").trigger("click");
+    expect(counter.actions.addCount).toHaveBeenCalled()
+  });
+
+  it('matches snapshot', () => {
+    expect(wrapper.html()).toMatchSnapshot()
+  })
+
+
+})

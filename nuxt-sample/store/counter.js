@@ -24,6 +24,22 @@ export const actions = {
   },
   setData({ commit ,result}){
     commit('setData', result)
-  }
+  },
+  // sample
+  // 呼び出し側でstore.dispatch('actionA').then(() => {})と書ける
+  // async actionA ({ commit }) {
+  //   commit('gotData', await getData())
+  // },
+  // async actionB ({ dispatch, commit }) {
+  //   await dispatch('actionA') // `actionA` が完了するのを待機する
+  //   commit('gotOtherData', await getOtherData())
+  // }
+
 }
+
+// export const getters = {
+//   isAuthenticated (state) {
+//     return !!state.user
+//   }
+// }
 
