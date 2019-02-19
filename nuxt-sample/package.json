@@ -12,7 +12,7 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint",
     "test": "jest",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -p 9001 -c .storybook",
     "build-storybook": "build-storybook"
   },
   "dependencies": {
@@ -24,10 +24,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.3.3",
-    "@storybook/vue": "^3.4.11",
-    "@storybook/addon-actions": "^3.4.11",
-    "@storybook/addon-links": "^3.4.11",
-    "@storybook/addons": "^3.4.11",
+    "@storybook/vue": "^4.1.12",
     "@vue/test-utils": "^1.0.0-beta.29",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.1.0",
@@ -42,6 +39,8 @@
     "eslint-plugin-vue": "^4.0.0",
     "jest": "^24.1.0",
     "jest-serializer-vue": "^2.0.2",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
     "vue-jest": "^3.0.3"
   },
   "jest": {

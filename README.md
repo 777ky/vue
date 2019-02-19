@@ -1,21 +1,7 @@
 ## TODO
 * storybook
-https://qiita.com/SotaSuzuki/items/b20167ee811aa3bd29df
-
-https://qiita.com/tk07Sky/items/11c941d4c4d3ed8a322a
-
-```
-$ npm i -g @storybook/cli
-$ cd my-project
-$ getstorybook 
-```
-"@storybook/vue": "^3.4.11",
-"@storybook/addon-actions": "^3.4.11",
-"@storybook/addon-links": "^3.4.11",
-"@storybook/addons": "^3.4.11",
-3系でないと動かないらしい
-
-@storybook/vue@3 @storybook/addon-actions@3 @storybook/addon-links@3 @storybook/addons@3
+https://storybook.js.org/basics/guide-vue/
+Storybook for Vueをみるのが一番良かった
 
 * jestそろそろ
 https://qiita.com/akihiro-iwata/items/baceebd00b6973d67456
@@ -24,22 +10,19 @@ https://qiita.com/akihiro-iwata/items/baceebd00b6973d67456
 テスト内容が勉強になる
 https://qiita.com/rhistoba/items/6e90e2c51e8ad1875ac0#jest%E3%81%AB%E3%82%88%E3%82%8B%E3%83%86%E3%82%B9%E3%83%88
 
-https://github.com/vuejs/vue-test-utils-jest-example
 
 
 ```
-$ yarn add --dev jest @vue/test-utils babel-jest vue-jest jest-serializer-vue babel-preset-env
-
-$ yarn add --dev babel-polyfill
-$ yarn add --dev syntax-object-rest-spread
-
-jest
-@vue/test-utils
-babel-jest (for ES2015+ features in tests)
-vue-jest (for handling *.vue files in tests)
-jest-serializer-vue(for snapshot tests)
-babel-preset-env
+$ yarn add --dev jest @vue/test-utils babel-jest vue-jest jest-serializer-vue babel-preset-env babel-polyfill syntax-object-rest-spread
 ```
+* @vue/test-utils
+* babel-jest (for ES2015+ features in tests)
+* vue-jest (for handling *.vue files in tests)
+* jest-serializer-vue(for snapshot tests)
+* babel-preset-env
+* babel-polyfill
+* syntax-object-rest-spread(...spreadを利用するため)
+
 https://vue-test-utils.vuejs.org/ja/guides/getting-started.html
 
 * shallowMountとmountの違い

@@ -1,11 +1,13 @@
 {
   "presets": [
-    ["env", { "modules": false }]
+    ["@babel/preset-env", { "modules": false }]
+    // ["@babel/preset-env", { "modules": false }]
   ],
   "env": {
     "test": {
       "presets": [
-        ["env", { "targets": { "node": "current" }}]
+        ["@babel/preset-env", { "targets": { "node": "current" }}]
+        // ["env", { "targets": { "node": "current" }}]
       ],
       "plugins": ["syntax-object-rest-spread"]
     }
