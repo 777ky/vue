@@ -1,22 +1,52 @@
 <template>
-  <section class="container">
-    <div>
-      <auth />
+  <div>
+    <div v-if="!isAuthenticated">
+      <p>Login</p>
+      <button @click="doLogin">login</button>
     </div>
-    <div>a</div>
-  </section>
+  </div>
 </template>
 
 <script>
-import auth from '~/components/auth.vue';
+import firebase from '@/plugins/firebase'
+import auth from '@/plugins/auth'
+import { mapActions,mapGetters,mapMutations } from 'vuex'
 
 export default {
-  computed: {
+  // name:'Auth',
+  computed:{
+    ...mapGetters([
+      'isAuthenticated'
+    ])
   },
-  methods: {
+  methods:{
+    ...mapMutations([
+      'setUser'
+    ]),
+    ...mapActions([
+      'login',
+      'logout',
+    ]),
+
+    doLogin () {
+      this.login()
+    },
+    doLogout () {
+      this.logout().then(()=>{
+        console.log('logout')
+      })
+    }
   },
-  components: {
-    auth,
+  mounted(){
+    auth().then((result)=>{
+      this.setUser(result)
+      if(result){
+        this.$router.push('/')
+      }
+    })
   }
 }
 </script>
+
+<style>
+</style>

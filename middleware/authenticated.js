@@ -1,6 +1,6 @@
 export default ({ store, route, redirect })=> {
-  if (!store.getters.isAuthenticated && route.name === 'auth') {
+  if(!store.getters.isAuthenticated && route.name === 'index') {
     //ログインしてない場合はログイン画面へリダイレクト
-    redirect('/auth/login')
+    redirect('/login')
   }
 }

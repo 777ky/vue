@@ -1,20 +1,37 @@
 <template>
-  <div class="container" v-if="isAuthenticated">
-    <div class="links">
-      <button @click="doLogout">logout</button>
-    </div>
+  <section class="container">
     <div>
-    main
+    <h1>{{ title }}</h1>
+    <p>{{ description }}</p>
+    <!-- cacheFirstのサンプル -->
+    <div><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/k/ky777/20171221/20171221151814.png" alt="" width="100" height="10"></div>
+    <!-- 通常キャッシュできるかのサンプル -->
+    <div><img src="/text.jpg" alt="" width="50" height="10"></div>
+    <!--
+    <app-logo/>
+    -->
+
+    <div class="links">
+        <a href="/login/" class="button--green">login</a>
+        <a href="/page1/" class="button--green">page1</a>
+      <button @click="doLogout">logout</button>
+      </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
 import firebase from '@/plugins/firebase'
-import auth from '@/plugins/auth'
 import { mapActions,mapMutations,mapGetters } from 'vuex'
+import AppLogo from '@/components/AppLogo.vue'
 
 export default {
+  data(){
+    return{
+      title: 'Hello World!',
+      description: 'description'
+    }
+  },
   head(){
     return {
       title: this.title,
@@ -26,36 +43,34 @@ export default {
       ]
     }
   },
+  middleware: [
+    'authenticated',
+  ],
+  components: {
+    AppLogo
+  },
   computed:{
     ...mapGetters([
       'isAuthenticated'
     ])
   },
   methods:{
-    ...mapMutations([
-      'setUser'
-    ]),
     ...mapActions([
+      'login',
       'logout',
     ]),
     doLogout () {
       this.logout().then(()=>{
         console.log('logout')
-        this.$router.push('/login')
       })
     }
+
+
   },
   mounted(){
-    auth().then((result)=>{
-      this.setUser(result)
-      // this.$store.commit('setUser',result)
-      console.log(result)
-      if(!result){
-        this.$router.push('/login/')
-      }
-    })
-
+    console.log(this.isAuthenticated)
   }
+
 }
 </script>
 

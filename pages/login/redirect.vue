@@ -1,30 +1,32 @@
 <template>
   <section class="container">
     <div>
-     <p>...</p>
+     <p>loading...</p>
     </div>
   </section>
 </template>
 
 <script>
 import firebase from '@/plugins/firebase'
-import { mapActions } from 'vuex'
+import auth from '@/plugins/auth'
+import { mapMutations } from 'vuex'
 
 export default {
   methods: {
-    ...mapActions([
-      'setUser',
-    ])
+    ...mapMutations([
+      'setUser'
+    ]),
   },
   mounted(){
-    firebase.auth().onAuthStateChanged(
-      (result) => {
-        if(result){
-          this.setUser(true)
-          this.$router.push('/login/')
-          return;
-        }
-      });
+    auth().then((result)=>{
+      if(result){
+        this.setUser(result)
+        this.$router.push('/')
+      }else{
+       const googleProvider = new firebase.auth.GoogleAuthProvider()
+       firebase.auth().signInWithRedirect(googleProvider)
+      }
+    })
   }
 }
 </script>

@@ -99,9 +99,12 @@ module.exports = {
       },
     ],
   },
-  router: {
-    // middleware: ['mutation','authenticated']
-  },
+  // router: {
+  //   middleware: 'authenticated'
+  // },
+  // router: {
+  //   middleware: ['mutation','authenticated']
+  // },
   plugins:[
     { src: '~/plugins/nuxt-client-init.js', ssr: false },
   ]
