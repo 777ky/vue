@@ -5,6 +5,7 @@ module.exports = {
   env: {
     siteName: process.env.BASE_URL || siteName
   },
+  mode: 'universal',
   // mode:'spa',
   head: {
     htmlAttrs: {
@@ -29,7 +30,10 @@ module.exports = {
   /*
   ** Build configuration
   */
+  // buildDir: '../functions/nuxt',
   build: {
+    publicPath: '/assets/',
+    extractCSS: true,
     /*
     ** Run ESLint on save
     */
