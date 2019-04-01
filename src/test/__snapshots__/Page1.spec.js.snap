@@ -4,7 +4,6 @@ exports[`Page1/index.vue matches snapshot 1`] = `
 <section class="container">
   <div>
     <p class="cnt">count=0</p> <button class="add-btn">+</button> <button>0</button>
-    <ul></ul>
   </div>
 </section>
 `;

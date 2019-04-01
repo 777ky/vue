@@ -1,53 +1,58 @@
 <template>
-  <div>
-    <nuxt/>
-  </div>
+  <v-app>
+    <v-content>
+      <nuxt />
+    </v-content>
+  </v-app>
 </template>
+<script>
+import AppFooter from '@/components/Footer'
+import AppHeader from '@/components/Header'
+import { mapState, mapGetters } from 'vuex'
 
-<style>
-html {
-  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
+export default {
+  components: { AppHeader,AppFooter },
+  data(){
+    return{
+    }
+  },
+  mounted(){
+  },
+  computed: {
+    ...mapState([
+      'page'
+    ]),
+    ...mapGetters([
+      'isLoaded'
+    ]),
+  },
+}
+</script>
+<style lang="scss" scoped>
+
+// .v-layout{
+//   background:var(--v-backgroud-base);
+//   height:100%;
+// }
+
+.container {
+  position:relative;
+  text-align: center;
+  height:100%;
+  padding:0;
+  transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
 }
 
-*, *:before, *:after {
-  box-sizing: border-box;
-  margin: 0;
+.page-enter-active {
+  transition: opacity 0.25s ease-out;
 }
-
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
+.page-leave-active {
+  transition: opacity 0.25s ease-in;
 }
-
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
-}
-
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
+.page-enter,
+.page-leave-active {
+  opacity: 0;
 }
 </style>
+
 

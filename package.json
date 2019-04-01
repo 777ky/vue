@@ -1,13 +1,14 @@
 {
-  "name": "vue",
+  "name": "vue-top",
   "description": "Cloud Functions for Firebase",
   "author": "opdykurihara <ykurihara@opendoor.co.jp>",
   "scripts": {
     "setup": "npm run clean && npm run copyassets && npm run copystatic",
     "clean": "rm -rf public/*",
+    "build": "cd src && npm run build && cd ../",
     "copyassets": "cp -R functions/nuxt/dist/ public/assets",
     "copystatic": "cp -R src/static/* public",
-    "serve": "firebase serve --only hosting,functions",
+    "serve": "npm run build && npm run setup && firebase serve --only hosting,functions",
     "deploy": "firebase deploy"
   },
   "private": true

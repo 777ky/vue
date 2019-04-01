@@ -1,20 +1,39 @@
 <template>
-  <div class="container" v-if="isAuthenticated">
-    <div class="links">
-      <button @click="doLogout">logout</button>
-    </div>
-    <div>
-    main
-    </div>
-  </div>
-</template>
+  <v-container class="index" fluid justify-center align-center>
 
+    <div v-show="!isLoaded" class="progress-container"
+      style="display:flex;flex:1;height:100%;justify-content:center;align-items:center;"
+    >
+      <v-progress-circular
+        color="primary"
+        indeterminate
+      ></v-progress-circular>
+    </div>
+
+    <div class="card-container" v-show="isLoaded">
+      <card-personal :isActive="isActive" />
+      <challenge />
+    </div>
+  </v-container>
+</template>
 <script>
-import firebase from '@/plugins/firebase'
-import auth from '@/plugins/auth'
-import { mapActions,mapMutations,mapGetters } from 'vuex'
+import { mapActions,mapGetters } from 'vuex'
+import Top from '@/components/Top'
+import Challenge from '@/components/Challenge'
+import CardPersonal from '@/components/CardPersonal'
 
 export default {
+  watchQuery: ['page','item','pse'],
+  components: {
+    CardPersonal,
+    Top,
+    Challenge
+  },
+  data() {
+    return {
+      title: 'TOP',
+    }
+  },
   head(){
     return {
       title: this.title,
@@ -28,37 +47,77 @@ export default {
   },
   computed:{
     ...mapGetters([
-      'isAuthenticated'
+      'routeQuery',
+      'routeName',
+      'user',
+      'isLoaded',
+      'isPseudo'
     ])
   },
   methods:{
-    ...mapMutations([
-      'setUser'
-    ]),
     ...mapActions([
-      'logout',
+      'loadComplete',
     ]),
-    doLogout () {
-      this.logout().then(()=>{
-        console.log('logout')
-        this.$router.push('/login')
-      })
-    }
   },
-  mounted(){
-    auth().then((result)=>{
-      this.setUser(result)
-      // this.$store.commit('setUser',result)
-      console.log(result)
-      if(!result){
-        this.$router.push('/login/')
-      }
-    })
+  async asyncData({ query }) {
+    // const pageName = query.page || ''
+    const itemName = query.item || ''
+    const isActive = itemName === ''? false:true
+    // const isPseudo = query.pse ===1
+    // console.log(query.pse)
 
-  }
+    // if (store.getters['items'].length) {
+    //   return
+    // }
+    // await store.dispatch('fetchItems')
+
+    return {
+      // pageName,
+      itemName,
+      isActive
+    }
+
+  },
+  async mounted(){
+
+
+    // let user
+    // if (!this.user) user = await this.$firebaseAuthCheck()
+    const user = await this.$firebaseAuthCheck()
+    if(!user){
+      // 未ログイン
+      this.$router.push('/signin')
+      return
+    }
+
+    await Promise.all([
+      this.user
+        ? Promise.resolve()
+        : this.$store.dispatch('GET_CREDENTIAL', {
+          user:this.user || user || null
+        })
+    ])
+
+    if (!this.isLoaded) {
+      this.loadComplete()
+    }
+
+  },
 }
 </script>
-
-<style>
+<style lang="scss" scoped>
+.progress-container{
+  flex:1;
+  height:100%;
+  justify-content:center;
+  align-items:center;
+}
+.card-container{
+  display:grid;
+  grid-template:
+  "header" auto
+  "content" 1fr/
+   1fr;
+  height:100%;
+}
 </style>
-

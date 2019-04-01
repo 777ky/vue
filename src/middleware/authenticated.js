@@ -1,6 +1,7 @@
 export default ({ store, route, redirect })=> {
-  if(!store.getters.isAuthenticated && route.name === 'index') {
-    //ログインしてない場合はログイン画面へリダイレクト
-    redirect('/login')
-  }
+  // signin以外に非ログインでアクセスした場合
+  // if (!store.getters.isAuthenticated && route.name !== 'signin') {
+  //   redirect('/signin')
+  // }
+  store.commit('updatePage', route)
 }

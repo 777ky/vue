@@ -1,5 +1,7 @@
+
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/firestore';
 
 if (!firebase.apps.length) {
   firebase.initializeApp({
@@ -11,4 +13,40 @@ if (!firebase.apps.length) {
     messagingSenderId: process.env.MESSAGINGSENDERID
   })
 }
-export default firebase
+const firebaseApp = firebase;
+
+// const firebaseStore = firebase.firestore()
+// firebaseStore.settings({ timestampsInSnapshots: true })
+
+export default ({ app }, inject) => {
+
+  inject('usersRef',
+    firebaseApp.firestore().collection('users')
+  )
+
+  inject('provider',
+    new firebase.auth.GoogleAuthProvider()
+  )
+
+  inject('firebaseApp',firebase)
+
+  inject('firebaseStore', () => {
+    return firebaseApp.firestore()
+  })
+
+  inject('firebaseAuth', () => {
+    return firebaseApp.auth()
+  })
+
+  // ログイン判定プラグイン
+  inject('firebaseAuthCheck', () => {
+    return new Promise((resolve, reject) => {
+      firebaseApp.auth().onAuthStateChanged(user => {
+        resolve(user || false)
+      })
+    })
+  })
+
+}
+
+
