@@ -45,3 +45,8 @@ $ firebase deploy
 
 
 
+
+
+* functionsのエラー
+warning "firebase-admin > @firebase/database@0.3.16" has unmet peer dependency "@firebase/app-types@0.x".
+warning "firebase-admin > @firebase/database > @firebase/database-types@0.3.8" has unmet peer dependency "@firebase/app-types@0.x".

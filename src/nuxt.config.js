@@ -30,7 +30,7 @@ module.exports = {
   /*
   ** Build configuration
   */
-  // buildDir: '../functions/nuxt',
+  buildDir: '../functions/nuxt',
   build: {
     publicPath: '/assets/',
     extractCSS: true,
