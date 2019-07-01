@@ -29,12 +29,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
-// .v-layout{
-//   background:var(--v-backgroud-base);
-//   height:100%;
-// }
-
 .container {
   position:relative;
   text-align: center;

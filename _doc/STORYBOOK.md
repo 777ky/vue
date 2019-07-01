@@ -6,6 +6,7 @@ $ yarn add --save @storybook/vue
 $ yarn add --save babel-loader vue-loader vue-template-compiler @babel/core babel-preset-vue
 ```
 
+## 9001ポートでstorybookを立ち上げる例
 ``` [package.json]
 {
   "scripts": {
@@ -13,7 +14,12 @@ $ yarn add --save babel-loader vue-loader vue-template-compiler @babel/core babe
   }
 }
 ```
+```
+$ yarn storybook
+```
+http://localhost:9001/で確認する
 
+## config例 
 ``` [.storybook/config.js]
 import { configure } from '@storybook/vue';
 import Vue from 'vue';
@@ -26,6 +32,7 @@ function loadStories() {
 configure(loadStories, module);
 ```
 
+## storyの記述例
 ``` [stories/hello.js]
 import { storiesOf } from '@storybook/vue'
 import AppLogo from '../components/AppLogo.vue'
@@ -47,8 +54,3 @@ import { storiesOf } from '@storybook/vue';
 import './hello'
 ```
 
-```
-$ yarn storybook
-```
-
-http://localhost:9001/で確認する

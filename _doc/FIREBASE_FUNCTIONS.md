@@ -1,9 +1,5 @@
 # firebaseにdeployする
 ※firebaseで外部APIを利用するためには有料プランが必要
-
-```
-$ firebase deploy
-```
 ``` [.firebaserc]
 {
   "projects": {
@@ -31,6 +27,9 @@ nuxt generateしたファイルが/dist配下にある例
     ]
   }
 }
+```
+```
+$ firebase deploy
 ```
 
 ### firebase functionsを利用する場合

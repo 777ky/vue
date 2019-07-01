@@ -1,8 +1,6 @@
 # Firestore Authを利用する
-* auth
 
-## nuxt.config.jsでfirebaseのAPIKEYなどをセットする
-
+## nuxt.config.jsにfirebaseのAPIKEYなどを記述する
 ``` [nuxt.config.js]
   build: {
     extend (config, { isDev, isClient }) {
@@ -38,7 +36,7 @@ if (!firebase.apps.length) {
 export default firebase
 ```
 
-## ログインしていない場合のリダイレクト設定
+## middlewareを使ってログインしていない場合のリダイレクト設定をする例
 ``` [middleware/authenticated.js]
 export default ({ store, route, redirect })=> {
   if (!store.getters.isAuthenticated && route.name === 'auth') {
@@ -59,24 +57,3 @@ middleware: [
   'authenticated',
 ],
 ```
-
-* 永続化について
-https://firebase.google.com/docs/auth/web/auth-state-persistence?hl=ja
-
-
-
-* authコンポーネントを作る
-getRedirectResult() でリダイレクト系処理の結果の取得、onAuthStateChanged() で認証状態変更の待ち受けを行うことになります。
-→authプラグインとしてPromiseにする
-
-
-* signInWithRedirect()から戻ってくると値が入ってくる
-```
-firebase.auth().getRedirectResult().then((authData)=>
-{
-  console.log(authData.user);
-})
-```
-
-
-

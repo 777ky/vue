@@ -125,6 +125,10 @@ export const actions = {
     })
   },
 
+  reSignIn() {
+    this.$firebaseAuth().signInWithRedirect(this.$provider)
+  },
+
   // pickした日付をセットする
   PICK_SELECT_DATE({ commit }, date){
     commit('setPickDate', date)
@@ -166,42 +170,67 @@ export const actions = {
 
   },
 
-
   // 5.チャレンジを登録する
   SET_CHALLENGE({ commit,state,dispatch }, {user,name}) {
+    // TODO:batchのお試し
+    console.log('SET_CHALLENGE')
       const data = require('./'+name+'.json')
       const date = new Date()
 
-      data && Object.keys(data).forEach(key => {
-        const nestedContent = data[key];
-        if (typeof nestedContent === "object") {
-          Object.keys(nestedContent).forEach((docTitle,index) => {
+      const batch = this.$firebaseStore().batch();
+      console.log(batch)
+      // var nycRef = db.collection("cities").doc("NYC");
+      const ref = this.$usersRef.doc(user.uid).collection('challenge').doc('plank')
 
-            this.$usersRef
-              .doc(user.uid)
-              .collection('challenge')
-              .doc(key)
-              .collection('list')
-              .doc(docTitle)
-              .set({
-                ...nestedContent[docTitle],
-              })
-              .then((res) => {
-                // 30日をセットする
-                dispatch('SET_30_DATE',{
-                  user,
-                  name,
-                  date
-                })
-                console.log("SET_CHALLENGE_SUCCEED");
-              })
-              .catch((error) => {
-                console.error("SET_CHALLENGE_SUCCEED_ERROR: ", error);
-              })
-          });
+      batch.update(ref, {
+        // batch.set(ref, {
+        list:{
+          AAA: "New York City",
+          BBB: "New York City",
         }
       });
+      // Commit the batch
+      batch.commit().then(function () {
+        console.log('batchFIN?')
+      });
+
+
   },
+
+  SET_CHALLENGE_BK({ commit,state,dispatch }, {user,name}) {
+    const data = require('./'+name+'.json')
+    const date = new Date()
+
+    data && Object.keys(data).forEach(key => {
+      const nestedContent = data[key];
+      if (typeof nestedContent === "object") {
+        Object.keys(nestedContent).forEach((docTitle,index) => {
+
+          this.$usersRef
+            .doc(user.uid)
+            .collection('challenge')
+            .doc(key)
+            .collection('list')
+            .doc(docTitle)
+            .set({
+              ...nestedContent[docTitle],
+            })
+            .then((res) => {
+              // 30日をセットする
+              dispatch('SET_30_DATE',{
+                user,
+                name,
+                date
+              })
+              // console.log("SET_CHALLENGE_SUCCEED");
+            })
+            .catch((error) => {
+              console.error("SET_CHALLENGE_SUCCEED_ERROR: ", error);
+            })
+        });
+      }
+    });
+},
 
   // 4.チャレンジステイタスをセットする
   SET_CHALLENGE_STATUS({ commit,state,dispatch }, {user,name,date,flag}){
@@ -282,6 +311,36 @@ export const actions = {
     }
   },
 
+  DELETE_USER({commit,dispatch },credential){
+    let user = this.$firebaseAuth().currentUser;
+
+    console.log(credential)
+
+    user.reauthenticateAndRetrieveDataWithCredential(credential).then(()=>{
+      user.delete().then(function() {
+        console.log('deleted')
+      }).catch(function(error) {
+        console.log(error)
+      });
+    }).catch(function(error) {
+      console.log(error)
+    });
+
+    this.$usersRef.doc(user.uid).delete().then(
+      ()=>{
+        console.log("Document successfully deleted!");
+      }).catch(error=>{
+        console.error(error)
+      })
+
+      // TODO:setUserも空に
+      commit('setUser',false)
+      commit('signOut',false)
+
+  },
+
+
+
   // 1.ユーザ情報を取得する
   async GET_CREDENTIAL({commit,state,dispatch},{user,name}){
     if (!user) return
@@ -289,10 +348,13 @@ export const actions = {
       .doc(user.uid)
       .get()
 
-
     if (userSnapShot.exists) {
       // ログインユーザでユーザ情報がDBにある場合
+      // otameshi
       commit('setUser', userSnapShot.data())
+      // dispatch('SET_CREDENTIAL',user)
+
+
     }else{
       // ログインユーザでユーザ情報がDBにない場合
       dispatch('SET_CREDENTIAL',user)
@@ -388,9 +450,9 @@ export const actions = {
   },
 
 
-  setQuery({ commit, state, dispatch }){
-    console.log('setQuery')
-  },
+  // setQuery({ commit, state, dispatch }){
+  //   console.log('setQuery')
+  // },
 
   // nuxtServerInitの例
   // nuxtServerInit ({ commit }, { req }) {

@@ -47,6 +47,14 @@ export default ({ app }, inject) => {
     })
   })
 
+  inject('firebaseCredential', () => {
+    return new Promise((resolve, reject) => {
+      firebaseApp.auth().getRedirectResult().then(result => {
+        resolve(result.credential || false)
+      })
+    })
+  })
+
 }
 
 

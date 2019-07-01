@@ -7,8 +7,8 @@
       <div>{{message}}</div>
 
       <v-btn class="modal-btn-ok"
-      @click="$emit('resetChallengeDate')"
-      >reset</v-btn>
+      @click="$emit('action')"
+      >{{action}}</v-btn>
 
       <v-btn class="modal-btn-ok" @click="$emit('close')">cancel</v-btn>
       </div>
@@ -24,6 +24,7 @@ export default {
   props: {
     title:String,
     message:String,
+    action:String
   },
   data(){
     return{

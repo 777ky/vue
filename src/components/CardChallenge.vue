@@ -4,9 +4,9 @@
     <modal :index="postIndex" v-if="showModal"
     @close="closeModal" @checkCollection="checkCollection"></modal>
 
-    <modal-alert :title="'RESET'" :message="'postIndex'" v-if="showModalAlert"
+    <modal-alert :title="'RESET'" :message="'開始日をリセット'" :action="'RESET'" v-if="showModalAlert"
     @close="closeModalAlert"
-    @resetChallengeDate="resetChallengeDate"
+    @action="resetChallengeDate"
     ></modal-alert>
 
     <transition name="card-challenge-transition">
@@ -20,10 +20,6 @@
           30日間続けることで美しい姿勢や疲れづらい体になることを目指します。</p>
           </div>
           <div v-show="isActive" class="">
-            <!--
-              <v-btn class="card-challenge-link" @click="toggleChallengeStatus()">BACK</v-btn>
-              -->
-
             <div v-if="!isChallengeLoaded" class="progress-container">
               <v-progress-circular
                 indeterminate
@@ -385,7 +381,7 @@ height:100%;
 padding:16px 16px 8px;
 background-color: #fff;
 box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08);
-margin-bottom:24px;
+margin-bottom:8px;
 }
 .card-challenge-hdg{
   font-size:20px;

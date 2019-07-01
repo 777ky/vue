@@ -1,4 +1,5 @@
 <template>
+  <div>
   <div class="card-personal" v-bind:class="{ isActive: isActive }">
     <transition name="personal">
       <div class="card-personal-inr">
@@ -6,30 +7,48 @@
         <div class="card-parsonal-info">
           <div v-if="user">
              <div class="user-icon"><img :src="user.icon" alt=""></div>
-             <div class="user-name">{{user.name}}</div>
+             <div class="user-info">
+              <div class="user-name">{{user.name}}</div>
+              <div class="user-delete">
+                <v-btn icon flat  color="#fff" @click="deleteUser()" ><v-icon>delete_forever</v-icon></v-btn>
+                <!-- <v-btn icon flat  color="#fff" @click="openModalAlert()" ><v-icon>delete_forever</v-icon></v-btn> -->
+              </div>
+             </div>
           </div>
         </div>
         <div class="card-personal-btn-container">
           <v-btn class="card-personal-btn" outline round block @click="signOut">signOut</v-btn>
         </div>
+
         <div class="card-personal-back-btn-container">
           <button type="button" class="card-personal-back-btn" @click="back()"><v-icon color="#ffffff">chevron_left</v-icon><span class="card-personal-back-btn-txt">back</span></button>
         </div>
       </div>
     </transition>
   </div>
+  <modal-alert :title="'DELETE USER'" :message="'アカウントを削除します'" :action="'DELETE'" v-if="showModalAlert"
+@close="closeModalAlert"
+@action="deleteUser"
+></modal-alert>
+
+  </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import ModalAlert from '@/components/ModalAlert'
 
 export default {
   name: 'CardPersonal',
+  components:{
+    ModalAlert
+  },
   props: {
     isActive: Boolean,
   },
   data(){
     return {
+      showModalAlert: false,
     }
   },
   computed:{
@@ -42,6 +61,21 @@ export default {
     async signOut(){
       const signout = await this.$store.dispatch('signOut')
       this.$router.push('/signin')
+    },
+    deleteUser(){
+      this.$router.push('/deleteaccount')
+
+      // this.closeModalAlert()
+      // this.$store.dispatch('DELETE_USER', {
+      //   user:this.user
+      // })
+
+    },
+    openModalAlert(){
+      this.showModalAlert = true;
+    },
+    closeModalAlert(){
+      this.showModalAlert = false;
     },
     toggleView(){
       this.isActive = !this.isActive
@@ -95,8 +129,8 @@ export default {
 
   .user-icon{
     margin:12px auto 6px;
-    width:73px;
-    height:73px;
+    width:53px;
+    height:53px;
     border-radius:50%;
     overflow:hidden;
     @include group;
@@ -107,9 +141,20 @@ export default {
     }
   }
 
+  .user-info{
+    display: flex;
+    margin-left:50px;
+    @include group;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .user-delete{
+    min-width:50px;
+  }
+
   .user-name{
-    margin-bottom:12px;
-    font-size:20px;
+    font-size:16px;
     font-weight:bold;
     color:#fff;
     @include group;
@@ -134,7 +179,7 @@ export default {
 
 // animationあればこちら
 .card-personal.isActive{
-  padding:16px 16px 0;
+  padding:16px;
 
   .card-personal-back-btn-container{
     display:block;
@@ -155,6 +200,9 @@ export default {
     }
   }
 
+  .user-info{
+    display: none;
+  }
   .user-name{
     font-size:0;
   }

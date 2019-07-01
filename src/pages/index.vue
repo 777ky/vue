@@ -1,6 +1,7 @@
 <template>
   <v-container class="index" fluid justify-center align-center>
 
+    
     <div v-show="!isLoaded" class="progress-container"
       style="display:flex;flex:1;height:100%;justify-content:center;align-items:center;"
     >
@@ -60,27 +61,15 @@ export default {
     ]),
   },
   async asyncData({ query }) {
-    // const pageName = query.page || ''
     const itemName = query.item || ''
     const isActive = itemName === ''? false:true
-    // const isPseudo = query.pse ===1
-    // console.log(query.pse)
-
-    // if (store.getters['items'].length) {
-    //   return
-    // }
-    // await store.dispatch('fetchItems')
-
     return {
-      // pageName,
       itemName,
       isActive
     }
 
   },
   async mounted(){
-
-
     // let user
     // if (!this.user) user = await this.$firebaseAuthCheck()
     const user = await this.$firebaseAuthCheck()
