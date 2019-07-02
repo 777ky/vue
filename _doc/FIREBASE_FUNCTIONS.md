@@ -107,4 +107,29 @@ app.use(handleRequest);
 exports.ssrapp = functions.https.onRequest(app);
 ```
 
+## firestoreのルール
+
+* デフォルト
+```
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write;
+    }
+  }
+}
+```
+
+* 認証必須
+```
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId} {
+      allow create, read: if request.auth != null;
+      allow update: if request.auth.uid == userId;
+    }
+  }
+}
+```
+
 

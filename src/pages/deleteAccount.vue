@@ -1,35 +1,45 @@
 <template>
-  <v-container class="delete-account" fluid justify-center align-center>
-
-    <div class="progress-container" v-if="!isLoaded">
-      <v-progress-circular
-        color="primary"
-        indeterminate
-      ></v-progress-circular>
+  <div class="str-container delete">
+    <div class="str-header">
+      <app-header :isUser="false" :isActive="false" />
     </div>
+    <div class="str-content">
+      <main class="str-content-inr">
+        <div class="str-content-inr-center">
+          <v-progress-circular
+            v-if="!isLoaded"
+            class="progress"
+            color="primary"
+            indeterminate
+          />
+        <div v-show="!isCredential && isLoaded">
+          <p>アカウントを削除するには再度ログインが必要です</p>
+          <div class="btn-signin">
+            <button type="button" class="btn-signin-google" @click="reSignIn">Google SignIn
+          </button>
+          </div>
+          <v-btn flat color="accent" @click="$router.push('/')">CANCEL</v-btn>
+        </div>
 
-    <div class="delete-account-inr" v-show="!isCredential && isLoaded">
-      <p>アカウントを削除するには再度ログインが必要です</p>
-      <div class="btn-signin-container">
-      <button type="button" class="btn-signin" @click="reSignIn">
-        <img src="/images/btn-google-signin.png" alt="Google SignIn">
-      </button>
-      <p><a href="/">top</a></p>
-      </div>
-
+        <div v-show="isCredential && isLoaded">
+          <p>アカウントを削除してよろしいですか？</p>
+          <v-btn round outline color="accent" @click="$router.push('/')">CANCEL</v-btn>
+          <v-btn round color="secondary" @click="deleteUser">OK</v-btn>
+        </div>
+        </div>
+      </main>
     </div>
-    <div v-show="isCredential">
-      <p>アカウントを削除してよろしいですか？</p>
-      <v-btn round outline color="accent" @click="$router.push('/')">CANCEL</v-btn>
-      <v-btn round color="secondary" @click="deleteUser">OK</v-btn>
-    </div>
-  </v-container>
+  </div>
 </template>
 
 <script>
 import { mapGetters,mapActions } from 'vuex'
+import AppHeader from '@/components/AppHeader'
 
 export default {
+  components: {
+    AppHeader
+  },
   data() {
     return {
       title: 'deleteAccount',
@@ -66,10 +76,6 @@ export default {
   },
   async mounted() {
 
-    // this.$firebaseAuth().getRedirectResult().then((result)=>{
-    //   console.log(result.credential)
-    // })
-
     this.credential = await this.$firebaseCredential()
     console.log(this.credential)
 
@@ -88,17 +94,11 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.delete-account{
-  display: flex;
-}
-.btn-signin-container{
-  width:295px;
-  margin:0 auto;
+<style lang="scss" scope>
+.delete{
   .btn-signin{
-    img{
-      max-width:100%;
-    }
+    position: relative;
+    margin: 16px 20% auto;
   }
 }
 </style>

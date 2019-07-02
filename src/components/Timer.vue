@@ -4,12 +4,15 @@
     <div class="ctrl">
       <div class="progressCircle">
         <svg viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="50" class="base" />
-        <circle cx="50" cy="50" r="50" :class="['circle', 'pie',{'is-comp':timerComplete}]" :style="styles" />
-        <text v-if="timerComplete" class="circle-day-sup" x="50%" y="50%" text-anchor="middle" dominant-baseline="central">
+        <circle cx="50" cy="50" r="70" class="base" />
+        <circle cx="50" cy="50" r="70" :class="['circle', 'pie',{'is-comp':timerComplete}]" :style="styles" />
+        <text v-if="timerComplete" class="circle-day-comp" x="50%" y="50%" text-anchor="middle" dominant-baseline="central">
           Complete!!!
         </text>
-        <text v-if="!timerComplete" class="circle-day-sup" x="50%" y="50%" text-anchor="middle" dominant-baseline="central">
+        <text v-if="!timerComplete" class="circle-day-sup" x="50%" y="20%" text-anchor="middle" dominant-baseline="central">
+          day
+        </text>
+        <text v-if="!timerComplete" class="circle-day" x="50%" y="60%" text-anchor="middle" dominant-baseline="central">
           {{day}}
         </text>
         </svg>
@@ -20,7 +23,7 @@
       {{ formatTime }}
     </div>
     <div v-if="!timerComplete">
-      <v-btn class="btn-start" round color="primary" v-on:click="start" v-if="!timerOn">Start</v-btn>
+      <v-btn class="btn-start" round color="primary" v-on:click="start" v-if="!timerOn">START</v-btn>
       <v-btn class="btn-cancel" round outline color="primary" v-on:click="reset" v-if="timerOn">CANCEL</v-btn>
     </div>
     <div v-if="timerComplete">
@@ -148,7 +151,7 @@ export default {
 }
 
 @keyframes pie {
-  50%,100% { stroke-dasharray: 314,314,0,0;}
+  50%,100% { stroke-dasharray: 439,439,0,0;}
 }
 
 .progressCircle{
@@ -172,16 +175,28 @@ export default {
   .circle {
     fill: none;
     stroke-width: 5;
-    stroke-dasharray: 0,314;
+    stroke-dasharray: 0,439;
     stroke: $primary;
     transform-origin:50% 50%;
 		transform: rotate(-90deg);
+  }
+  .circle-day{
+    fill:$txtPrimary;
+    font-size:60px;
+  }
+  .circle-day-sup{
+    fill:$txtPrimary;
+    font-size:18px;
+  }
+  .circle-day-comp{
+    fill:$secondary;
+    font-size:16px;
   }
   .pie {
     stroke: $primary;
     &.is-comp{
       stroke: $secondary;
-      stroke-dasharray: 314,314;
+      stroke-dasharray: 439,439;
     }
   }
   .base{
@@ -190,5 +205,9 @@ export default {
     stroke-width: 3;
   }
 }
-
+.btn-cancel,
+.btn-start{
+  width:90%;
+  margin:0 auto 16px;
+}
 </style>

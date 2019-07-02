@@ -38,3 +38,14 @@ import "../styles/master.scss";
 </script>
 ```
 
+## 共通のcss
+nuxt.config.jsに記述するとよい
+```
+module.exports = {
+  css: [
+    '~/static/styles/main.scss',
+  ],
+  :
+  :
+}
+```

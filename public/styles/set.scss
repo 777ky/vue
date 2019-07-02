@@ -4,7 +4,9 @@ $secondary:#ff4c6c;
 $accent: #479ac8;
 $info:#4B9CC9;
 $txtPrimary: #3A6A75;
-$txtSecondary: #95989A;
+$txtSecondary: #95989a;
+$primaryRev:#fff;
+$disabled:#eee;
 
 @mixin group() {
   transform: translateZ(0);

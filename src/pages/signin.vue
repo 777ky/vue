@@ -1,26 +1,36 @@
 <template>
-  <v-container class="signin" fluid justify-center align-center>
-    <div class="signin-filter"></div>
-
-    <div class="progress-container" v-if="!isLoaded">
-      <v-progress-circular
-        color="primary"
-        indeterminate
-      ></v-progress-circular>
+  <div class="str-container signin">
+    <div class="str-header">
+      <app-header :isActive="false" />
     </div>
+    <div class="str-content">
+      <main class="str-content-inr">
+        <div class="str-content-inr-center">
+          <div class="signin-filter"></div>
+          <v-progress-circular
+              v-if="!isLoaded"
+              class="progress"
+              color="primary"
+              indeterminate
+            />
 
-    <div class="btn-signin-container" v-show="isLoaded">
-      <button type="button" class="btn-signin" @click="signIn">
-        <img src="/images/btn-google-signin.png" alt="Google SignIn">
-      </button>
-    </div>
-  </v-container>
+          <div class="btn-signin" v-show="isLoaded">
+            <button type="button" class="btn-signin-google" @click="signIn">Google SignIn</button>
+          </div>
+        </div>
+      </main>
+    <!-- /str-content --></div>
+  </div>
 </template>
 
 <script>
 import { mapGetters,mapActions } from 'vuex'
+import AppHeader from '@/components/AppHeader'
 
 export default {
+  components: {
+    AppHeader
+  },
   data() {
     return {
       title: 'SignIn',
@@ -61,26 +71,19 @@ export default {
 
 <style lang="scss">
 .signin{
-  display:flex;
   background:url(/images/run-woman.png) center 0 no-repeat;
   background-size:cover;
-}
-.signin-filter{
-  position:fixed;
-  height:100%;
-  width:100%;
-  filter: blur(1px);
-  background-color: rgba(255, 255, 255, 0.41);
-  z-index:1;
-}
-.btn-signin-container{
-  z-index:2;
-  width:295px;
-
+  .signin-filter{
+    position:fixed;
+    top:0;
+    left:0;
+    height:100%;
+    width:100%;
+    filter: blur(1px);
+    background-color: rgba(255, 255, 255, 0.41);
+  }
   .btn-signin{
-    img{
-      max-width:100%;
-    }
+    width: 100%;
   }
 }
 </style>

@@ -1,5 +1,8 @@
 <template>
-  <div :class="['card-challenge',{'is-active':isActive},{'is-pseudo':isPseudo}]">
+  <div
+    :class="['card-challenge',
+    {'is-active':isActive}]"
+  >
     <date-picker v-if="showDatePicker" @close="toggleDatePicker"></date-picker>
     <modal :index="postIndex" v-if="showModal"
     @close="closeModal" @checkCollection="checkCollection"></modal>
@@ -10,118 +13,113 @@
     ></modal-alert>
 
     <transition name="card-challenge-transition">
-      <div v-if="!isHidden" class="">
-        <div class="card-challenge-inr">
+      <div v-if="!isHidden" class="card-challenge-inr">
 
-        <div class="card-challenge-content">
-          <div @click="initChallenge()">
-            <h2 class="card-challenge-hdg">{{name}}</h2>
-            <p class="card-challenge-txt">
-          30日間続けることで美しい姿勢や疲れづらい体になることを目指します。</p>
-          </div>
-          <div v-show="isActive" class="">
-            <div v-if="!isChallengeLoaded" class="progress-container">
-              <v-progress-circular
-                indeterminate
-                color="primary"
-              ></v-progress-circular>
-            </div>
+        <div @click="initChallenge()">
+          <h2 class="card-challenge-hdg">{{name}}</h2>
+          <p class="card-challenge-txt">{{txt}}</p>
+        </div>
+        <div v-show="isActive">
+          <v-progress-circular
+            v-if="!isChallengeLoaded"
+            color="primary"
+            class="progress"
+            indeterminate
+          />
 
-            <transition name="card-challenge-item">
-              <div v-show="isChallengeLoaded" class="card-challenge-item">
-                <div :class="{'is-challenge-loaded':isChallengeLoaded}">
+          <transition name="card-challenge-item">
+            <div v-show="isChallengeLoaded" class="card-challenge-item">
+              <div :class="{'is-challenge-loaded':isChallengeLoaded}">
 
-                <div class="circle-container">
-                  <svg viewBox="0 0 156 156">
-                    <circle class="circle" cx="77" cy="77" r="75" width="150" height="150" />
-                    <circle
-                      :class="['circle','circle-anime','d'+termDate]" cx="77" cy="77" r="75" width="150" height="150"
-                    />
-                    <text class="circle-day-sup" x="50%" y="28%" text-anchor="middle" dominant-baseline="central">
-                    day
-                    </text>
-                    <text class="circle-day" x="50%" y="52%" text-anchor="middle" dominant-baseline="central">
-                    {{termDate}}
-                    </text>
-                  </svg>
-                </div>
+              <div class="circle-container">
+                <svg viewBox="0 0 156 156">
+                  <circle class="circle" cx="77" cy="77" r="75" width="150" height="150" />
+                  <circle
+                    :class="['circle','circle-anime','d'+termDate]" cx="77" cy="77" r="75" width="150" height="150"
+                  />
+                  <text class="circle-day-sup" x="50%" y="26%" text-anchor="middle" dominant-baseline="central">
+                  day
+                  </text>
+                  <text class="circle-day" x="50%" y="54%" text-anchor="middle" dominant-baseline="central">
+                  {{termDate}}
+                  </text>
+                </svg>
+              </div>
 
-                <div class="start-date-sup">Start Date</div>
+              <div class="start-date-sup">Start Date</div>
 
-                <!-- 日付が設定されていない場合 -->
-                <div v-show="!isSetting">
-                  <!-- 日付がpickされていない場合 -->
-                  <button class="start-date-btn" type="button"
-                    @close="toggleDatePicker"
-                    @click="toggleDatePicker()">
+              <!-- 日付が設定されていない場合 -->
+              <div v-show="!isSetting">
+                <!-- 日付がpickされていない場合 -->
+                <button class="start-date-btn" type="button"
+                  @close="toggleDatePicker"
+                  @click="toggleDatePicker()">
 
-                    <div v-if="!pickDate" class="start-date-placeholder">日付選択</div>
-                    <div v-if="pickDate" class="start-date">{{format(pickDate)}}</div>
-                    <span class="icon-calendar"><img src="/images/icon-calendar.svg" alt="datePicker"></span>
-                  </button>
+                  <div v-if="!pickDate" class="start-date-placeholder">Setect Start Date</div>
+                  <div v-if="pickDate" class="start-date">{{format(pickDate)}}</div>
+                  <span class="icon-calendar"><img src="/images/icon-calendar.svg" alt="datePicker"></span>
+                </button>
 
 
-
-                  <div v-show="!pickDate">
-                    <v-btn disabled round block color="primary" type="button" >START</v-btn>
-                  </div>
-                  <div v-if="pickDate">
-                    <v-btn round block color="primary" type="button" @click="setChallengeDate()">START</v-btn>
-                  </div>
-
-                </div>
-
-
-
-
-                <!-- 日付セットした場合 -->
-                <div v-show="isSetting">
-                  <div class="start-date-set">{{format(startDate)}}</div>
-
-                  <div class="card-challenge-calendar">
-                    <div class="card-challenge-calendar-item"
-                      v-for="(item, index) in challenge"
-                      :key="`card-${index+1}`"
-                    >
-                      <div
-                      :class="['card-challenge-calendar-item-inr',
-                      {'is-today':item.day===termDate},
-                      {'is-checked':item.check},{'is-rest':item.text==='REST'}]"
-                      >
-
-                      <div v-if="item.text!=='REST'">
-                        <button @click="openModal(index)">
-                          <div class="day">{{item.day}}</div>
-                          <div class="min">{{item.text}}<span>min</span></div>
-                        </button>
-                      </div>
-                      <div v-if="item.text==='REST'">
-                        <div>
-                          <div class="day">{{item.day}}</div>
-                          <div class="min">{{item.text}}</div>
-                        </div>
-                      </div>
-
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
+                <div class="start-date-set-btn-container">
+                  <v-btn disabled round block
+                  v-show="!pickDate"
+                  class="start-date-set-btn" color="primary">START</v-btn>
+                  <v-btn round block
+                    v-show="pickDate"
+                    class="start-date-set-btn"
+                    color="primary" @click="setChallengeDate()">START</v-btn>
                 </div>
 
               </div>
-            </transition>
-          </div>
-        <!-- /card-challenge-content --></div>
-        <!-- /card-challenge-inr --></div>
 
-        <div v-if="isSetting && isActive">
-        <v-btn outline round color="info" @click="openModalAlert()">Reset First Day</v-btn>
+
+
+
+              <!-- 日付セットした場合 -->
+              <div v-show="isSetting">
+                <div class="start-date-set">{{format(startDate)}}</div>
+
+                <div class="card-challenge-calendar">
+                  <div class="card-challenge-calendar-item"
+                    v-for="(item, index) in challenge"
+                    :key="`card-${index+1}`"
+                  >
+                    <div
+                    :class="['card-challenge-calendar-item-inr',
+                    {'is-today':item.day===termDate},
+                    {'is-checked':item.check},{'is-rest':item.text==='REST'}]"
+                    >
+
+                    <div v-if="item.text!=='REST'">
+                      <button @click="openModal(index)">
+                        <div class="day">{{item.day}}</div>
+                        <div class="min">{{item.text}}<span>min</span></div>
+                      </button>
+                    </div>
+                    <div v-if="item.text==='REST'">
+                      <div>
+                        <div class="day">{{item.day}}</div>
+                        <div class="min">{{item.text}}</div>
+                      </div>
+                    </div>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              </div>
+
+            </div>
+          </transition>
         </div>
 
-      <!-- /!isHidden --></div>
+      <!-- /card-challenge-inr --></div>
     </transition>
-
+    <div class="card-challenge-ctrl" v-if="isSetting && isActive">
+      <v-btn outline round color="info" @click="openModalAlert()">Reset First Day</v-btn>
+    </div>
   </div>
 </template>
 
@@ -130,25 +128,25 @@ import { mapGetters,mapActions } from 'vuex'
 import DatePicker from '@/components/DatePicker'
 import Modal from '@/components/Modal'
 import ModalAlert from '@/components/ModalAlert'
-import HeaderPse from '@/components/HeaderPse'
 
 export default {
   watchQuery: true,
   name: 'CardChallenge',
   components: {
-    HeaderPse,
     DatePicker,
     Modal,
     ModalAlert
   },
   props: {
     challengeName:String,
+    challengeTxt:String
   },
   data(){
     return {
       showModal: false,
       showModalAlert: false,
       name: this.challengeName,
+      txt: this.challengeTxt,
       showDatePicker: false,
       // isReset:false,
       isChallengeLoaded: false,
@@ -159,13 +157,14 @@ export default {
       'termDate',
       'routeName',
       'routeQuery',
+      'challengeTitile',
+      'challengeDesc',
       'challenge',
       'user',
       'pickDate',
       'startDate',
       'isLoaded',
       'isSetting',
-      'isPseudo'
     ]),
     isActive(){
       if(this.routeQuery.item === void 0) return false
@@ -334,34 +333,22 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../static/styles/set.scss";
-.date-container{
-  display:flex;
-  .date-sup{
-    color:$txtSecondary;
-  }
-}
-.str-pseudo{
-  position: aboslute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background-color:#fff;
-}
-.start-date-sup{
-  color:$txtSecondary;
-}
+
+/* start-date-btn
+------------------------------------------------ */
 .start-date-btn{
-  width:80%;
-  border:1px solid $txtPrimary;
+  display: block;
+  border-bottom:1px solid $txtPrimary;
   border-radius: 4px;
-  padding:0 20px;
+  padding:0 32px 0 8px;
+  margin:16px auto 0;
   position: relative;
   height: 32px;
+  box-sizing: border-box;
   .icon-calendar{
     position: absolute;
     right:5px;
-    top:3px;
+    top:1px;
   }
   .start-date{
     color:$txtPrimary;
@@ -369,57 +356,78 @@ export default {
     font-size:20px;
   }
   .start-date-placeholder{
-    color:$txtSecondary;
+    color:$disabled;
+  }
+  .icon-calendar{
+    width:20px;
+    height:21px;
+    display:block;
   }
 }
+
+/* start-date-sup
+------------------------------------------------ */
+.start-date-sup{
+  color:$txtSecondary;
+}
+
+/* start-date-set
+------------------------------------------------ */
 .start-date-set{
   color:$txtPrimary;
   font-weight:bold;
   font-size:25px;
 }
 
-.icon-calendar{
-  width:20px;
-  height:21px;
-  display:block;
+/* start-date-set-btn-container
+------------------------------------------------ */
+.start-date-set-btn-container{
+  margin:16px 20% 0;
 }
-.progress-container{
-  margin-top:160px;
-}
+
+/* card-challenge
+------------------------------------------------ */
 .card-challenge{
+  margin:0;
   &.is-active{
-  height:100%;
+  // height:100%;
+
     .card-challenge-inr{
-      height:100%;
+      // height:100%;
+      margin-top:0;
     }
   }
+  .card-challenge-inr{
+    flex:1;
+    // height:100%;
+    padding:16px 16px 32px;
+    background-color: #fff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08);
+    margin-top:16px;
+  }
+  .card-challenge-hdg{
+    font-size:20px;
+    color:$txtPrimary;
+  }
+  .card-challenge-txt{
+    font-size:12px;
+    margin-top:5px;
+    color:$txtSecondary;
+  }
+  .card-challenge-ctrl{
+    padding:24px;
+  }
 }
-.card-challenge-content{
-  height:100%;
-}
-.card-challenge-inr{
-flex:1;
-height:100%;
-padding:16px 16px 8px;
-background-color: #fff;
-box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08);
-margin-bottom:8px;
-}
-.card-challenge-hdg{
-  font-size:20px;
-  color:$txtPrimary;
-}
-.card-challenge-txt{
-  font-size:12px;
-  color:$txtSecondary;
-}
+
+/* card-challenge-calendar
+------------------------------------------------ */
 .card-challenge-calendar{
   display:flex;
   flex-wrap:wrap;
   justify-content: space-between;
   margin-top: 16px;
   .card-challenge-calendar-item{
-    width:(100%/7);
+    width:(100%/6);
     margin-left:1px;
     .card-challenge-calendar-item-inr{
       border-top:3px solid #BDCDD1;
@@ -448,6 +456,8 @@ margin-bottom:8px;
   }
 }
 
+/* card-challenge-transition
+------------------------------------------------ */
 .card-challenge-transition-enter-active, .card-challenge-transition-leave-active {
 transition: .5s all ease-in-out;
 transform: scaleY(1);
@@ -459,7 +469,8 @@ overflow:hidden;
 }
 
 
-
+/* card-challenge-item
+------------------------------------------------ */
 .card-challenge-item-enter-active, .card-challenge-item-leave-active {
 transition: .5s all ease-in-out;
 }
@@ -468,9 +479,11 @@ opacity: 0;
 transform: translateX(10px);
 }
 
+/* circle svg
+------------------------------------------------ */
 .circle-container{
   width:118px;
-  margin:0 auto;
+  margin:16px auto 0;
 }
 .circle-day-sup{
   fill:$txtPrimary;

@@ -6,11 +6,13 @@
       <h1>{{title}}</h1>
       <div>{{message}}</div>
 
-      <v-btn class="modal-btn-ok"
+      <ul class="modal-btn-container">
+        <li><v-btn round block color="secondary" class="modal-btn-action"
       @click="$emit('action')"
-      >{{action}}</v-btn>
+      >{{action}}</v-btn></li>
+        <li><v-btn round block outline color="info" class="modal-btn-cancel" @click="$emit('close')">cancel</v-btn></li>
+      </ul>
 
-      <v-btn class="modal-btn-ok" @click="$emit('close')">cancel</v-btn>
       </div>
       <div class="modal-mask" @click="$emit('close')"></div>
 
@@ -40,8 +42,8 @@ export default {
   }
 }
 </script>
-
 <style lang="scss" scoped>
+@import "../static/styles/set.scss";
 .modal-mask {
   display:flex;
   position: fixed;
@@ -62,13 +64,14 @@ export default {
   width: 100%;
   height: 100%;
   align-items:center;
+
   .modal-item{
     z-index: 10000;
     opacity:0;
     width: 0;
-    padding:20px;
+    padding:60px 20px 30px;
     margin: 0px auto;
-    background-color: #fff;
+    background-color: $backgroud;
     border-radius: 2px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
     transition: all .5s ease-in-out;
@@ -80,8 +83,9 @@ export default {
     }
   }
 }
-.modal-btn-ok{
-z-index:9999;
+
+.modal-btn-container{
+  margin-top: 40px;
 }
 
 </style>

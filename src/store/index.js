@@ -13,6 +13,10 @@ export const state = () => ({
   termDate:0,
   // カレンダーでpickした日付格納用
   pickDate:null,
+  // チャレンジタイトル格納用
+  challengeTitile:null,
+  // チャレンジdescription格納用
+  challengeDesc:null,
   // チャレンジリスト格納用
   challenge: null,
   // チャレンジスタート日
@@ -43,7 +47,10 @@ export const getters = {
   pickDate: state => state.pickDate,
   isSetting: state => state.isSetting,
 
+  challengeTitile: state => state.challengeTitile,
+  challengeDesc: state => state.challengeDesc,
   challenge: state => state.challenge,
+
   // ミドルウェアで利用している
   isAuthenticated: state => !!state.user,
   window: state => state.window,
@@ -82,6 +89,9 @@ export const mutations = {
     // console.log('チャレンジステイタスにisSetting書き込み',payload.isSetting)
     state.startDate = payload.date.toDate()
     state.isSetting = payload.isSetting
+
+    state.challengeTitile = payload.title
+    state.challengeDesc = payload.description
   },
   initLocalStorage(state, payload){
     state.localStorage = payload
@@ -387,30 +397,6 @@ export const actions = {
         console.log(err)
       });
   },
-
-    // チャレンジステイタスを取得する
-    async LOAD_CHALLENGE_STATUS_BK({ commit,state }, {user,name}){
-
-      console.log('LOAD_CHALLENGE_STATUS')
-      if (!user) return
-      const snapshot = await this.$usersRef.doc(user.uid).get()
-
-      if (snapshot.exists){
-        commit('setChallengeState', snapshot.data()[name])
-      }else{
-        console.log('LOAD_CHALLENGE_STATUS_ERROR')
-      }
-
-
-        // const unsubscribe = this.$usersRef
-        // .doc(user.uid)
-        // .onSnapshot(snapshot => {
-        //   // console.log('チャレンジステイタスあるか',snapshot.data()[name])
-        //   commit('setChallengeState',snapshot.data()[name])
-        // }, err => {
-        //   console.log(err)
-        // });
-    },
 
   // チャレンジデータを取得
   LOAD_CHALLENGE({ commit,state }, {user,name}){

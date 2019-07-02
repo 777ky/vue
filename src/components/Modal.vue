@@ -2,9 +2,9 @@
   <transition name="modal">
     <div class="modal-container">
       <div :class="['modal-item',{'is-active':isActive}]">
-        <div class="date">
+        <!-- <div class="date">
           {{challenge[index].date.getMonth()+1}}/{{challenge[index].date.getDate()}}
-        </div>
+        </div> -->
         <div class="btn">
           <timer
             @timerComplete="timerComplete"
@@ -19,7 +19,7 @@
       >check</v-btn>
       </div>
 
-        <v-btn round block type="button" class="modal-btn-close" @click="$emit('close')">close</v-btn>
+        <v-btn round block outline color="info" type="button" class="modal-btn-close" @click="$emit('close')">close</v-btn>
       </div>
       <div class="modal-mask" @click="$emit('close')"></div>
 
@@ -63,10 +63,10 @@ export default {
 
 <style lang="scss" scoped>
 @import "../static/styles/set.scss";
-.circle-day{
-  font-size:30px;
+.date{
+  font-size:20px;
+  margin-bottom: 16px;
 }
-
 .modal-mask {
   display:flex;
   position: fixed;
@@ -91,7 +91,7 @@ export default {
     z-index: 10000;
     opacity:0;
     width: 0;
-    padding:20px;
+    padding:50px 20px;
     margin: 0px auto;
     background-color: $backgroud;
     border-radius: 2px;
@@ -108,6 +108,8 @@ export default {
 .modal-btn-check,
 .modal-btn-close{
 z-index:99999;
+width:90%;
+margin:0 auto 16px;
 }
 
 </style>

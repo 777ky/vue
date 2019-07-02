@@ -24,13 +24,10 @@ module.exports = {
   head: {
     script: [
       {
-        src:
-          'https://code.createjs.com/1.0.0/createjs.min.js'
+        src:'https://code.createjs.com/1.0.0/createjs.min.js'
       },
       {
-        src:
-        'https://code.createjs.com/1.0.0/preloadjs.min.js'
-
+        src:'https://code.createjs.com/1.0.0/preloadjs.min.js'
       }
     ],
     htmlAttrs: {
@@ -92,6 +89,7 @@ module.exports = {
       info:'#4B9CC9',
       txtPrimary: '#3A6A75',
       txtSecondary: '#95989A',
+      primaryRev: '#ffffff'
     },
       // theme: {
       //   primary:'#ccc',

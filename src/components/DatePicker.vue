@@ -3,18 +3,24 @@
   <div class="calendar-container">
     <div :class="['calendar-item',{'is-active':isActive}]">
 
-      <p>{{selectValue}}</p>
-      <h1 class="output">{{format()}}</h1>
-      <div class="header row between-xs middle-xs">
-        <div class="prev row">
-          <button @click.prevent="prevYear"></button>
-          <button @click.prevent="prevMonth"></button>
+      <div class="calendar-hdg-container">
+        <div class="calendar-hdg-sup">Start Date</div>
+        <div class="calendar-hdg">{{format()}}</div>
+      </div>
+
+
+      <div class="calendar-header">
+        <div class="calendar-date-conainer">
+          <!-- <span class="calendar-date-month">{{monthArray[current.month]}}</span> -->
+          <div class="calendar-date-month">{{current.month+1}}</div>
+          <div class="calendar-date-year">{{current.year}}</div>
         </div>
-        <h4>{{current.year}} {{ monthArray[current.month] }}</h4>
-        <div class="next row">
-          <button @click.prevent="nextMonth"></button>
-          <button @click.prevent="nextYear"></button>
-        </div>
+        <ul class="calendar-nav">
+          <li class="prev"><button @click.prevent="prevYear"></button></li>
+          <li class="prev-year"><button @click.prevent="prevMonth"></button></li>
+          <li class="next"><button @click.prevent="nextMonth"></button></li>
+          <li class="next-year"><button @click.prevent="nextYear"></button></li>
+        </ul>
       </div>
       <table>
         <thead>
@@ -34,11 +40,10 @@
         </tbody>
       </table>
 
-      <div>
-      <!-- TODO:setでSTARTボタンactiveになるように -->
-      <button @click="pickDate()">SET</button>
-      </div>
-      <button @click="$emit('close')">CANCEL</button>
+      <ul>
+        <li><v-btn color="primary" round block @click="pickDate()">SET</v-btn></li>
+        <li><v-btn color="accent" round flat @click="$emit('close')">CANCEL</v-btn></li>
+      </ul>
 
     </div>
 
@@ -55,21 +60,7 @@ export default {
     return {
       isActive:false,
       display: null,
-      monthArray: [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December'
-      ],
-      dayArray: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+      dayArray: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
       current: {
         year: '',
         month: ''
@@ -149,7 +140,7 @@ export default {
     format() {
       let month = ('0' + (this.selected.month + 1)).slice(-2)
       let date = ('0' + this.selected.date).slice(-2)
-      return this.selected.year + '-' + month + '-' + date
+      return this.selected.year + '/' + month + '/' + date
     },
     prevYear() {
       if (this.current.year >= 0) {
@@ -209,7 +200,7 @@ export default {
     z-index: 10000;
     opacity:0;
     width: 0;
-    padding:20px;
+    padding:23px 16px;
     margin: 0px auto;
     background-color: $backgroud;
     border-radius: 2px;
@@ -218,127 +209,124 @@ export default {
     overflow:hidden;
     &.is-active{
       opacity:1;
-      width:95%;
-      height:85%;
+      width:90%;
     }
 }
 
-  .output{
+  .calendar-hdg-container{
     text-align: center;
-  }
-  .header {
-    h4{
-      margin: 1.5em 0;
-      font-size: 1.1rem;
-      font-weight: 300;
+    .calendar-hdg-sup{
+      font-size:14px;
+      color:$txtSecondary;
     }
+    .calendar-hdg{
+      color:$txtPrimary;
+      font-size:23px;
+      font-weight: bold;
+    }
+  }
+
+
+  .calendar-header{
+    position: relative;
+    height:45px;
+    margin-bottom:16px;
+    .calendar-date-conainer{
+      position:absolute;
+      left:50%;
+      width: 50px;
+      margin-left:-25px;
+      .calendar-date-month{
+        font-weight: bold;
+        font-size:30px;
+        color:$txtPrimary;
+      }
+      .calendar-date-year{
+        font-size:14px;
+        color:$txtPrimary;
+        margin-top:-13px;
+      }
+    }
+
+  }
+
+  .calendar-nav{
     button {
-      position: relative;
+      position: absolute;
+      top:15px;
       margin: 0;
       width: 28px;
       height: 28px;
       min-height: inherit;
       border-radius: 3px;
       transition: background-color 0.3s, color 0.3s;
-      &:hover{
-        background: #2a2a2a;
-        color: #fff;
-      }
+
       &:after{
         content: '';
         position: absolute;
         top: 11px;
-        width: 7px;
-        height: 7px;
+        width: 8px;
+        height: 8px;
       }
     }
     .prev button{
-      margin-right: 0.2rem;
-      &:first-child:after{
-        left: 12px;
-        border-left: 2px solid;
-        border-bottom: 2px solid;
-        transform: rotate(45deg);
-      }
-      &:last-child:after{
-        left: 12px;
+      left:35px;
+      &::after{
+        border-color:$txtPrimary;
         border-left: 1px solid;
         border-bottom: 1px solid;
         transform: rotate(45deg);
       }
     }
+    .prev-year button{
+      left:5px;
+      &::after{
+        border-left: 3px solid;
+        border-bottom: 3px solid;
+        transform: rotate(45deg);
+      }
+    }
     .next button{
-      margin-left: 0.2rem;
-      &:last-child:after{
-        left: 8px;
+      right: 35px;
+      &::after{
         border-right: 2px solid;
         border-top: 2px solid;
         transform: rotate(45deg);
       }
-      &:first-child:after{
-        left: 8px;
-        border-right: 1px solid;
-        border-top: 1px solid;
+    }
+    .next-year button{
+      right: 5px;
+      &::after{
+        border-right: 3px solid;
+        border-top: 3px solid;
         transform: rotate(45deg);
       }
     }
   }
+
   table {
     width: 100%;
     table-layout: fixed;
     text-align: center;
-    font-size: 0.8rem;
+    margin-bottom: 24px;
     .date{
-      padding: 0.2rem;
       cursor: pointer;
       >span {
         display: inline-block;
-        width: 28px;
-        height: 28px;
-        line-height: 29px;
+        width: 32px;
+        height: 32px;
+        line-height: 32px;
         border-radius: 50%;
         transition: background-color 0.3s, color 0.3s;
+        background: #fff;
       }
       &:hover, &.selected {
         > span {
-          background: #2a2a2a;
+          background: $primary;
           color: #fff;
         }
       }
     }
   }
-}
-/* Layout */
-.row {
-  box-sizing: border-box;
-  display: flex;
-  flex: 0 1 auto;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-.end-xs {
-  justify-content: flex-end;
-  text-align: end;
-}
-.middle-xs {
-  align-items: center;
-}
-.between-xs {
-  justify-content: space-between;
-}
-
-/* Button */
-button {
-  font-size: 0.9rem;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  outline: none;
-  padding: 0;
-  margin: 0;
-  min-height: 40px;
-  appearance: none;
-  -webkit-tap-highlight-color: initial;
-  tap-highlight-color: initial;
 }
 </style>

@@ -1,34 +1,40 @@
 <template>
-  <v-container class="index" fluid justify-center align-center>
-
-
-    <div v-show="!isLoaded" class="progress-container"
-      style="display:flex;flex:1;height:100%;justify-content:center;align-items:center;"
-    >
-      <v-progress-circular
-        color="primary"
-        indeterminate
-      ></v-progress-circular>
+  <div class="str-container index">
+    <div class="str-header">
+      <div class="card-container" v-show="isLoaded">
+        <app-header :isUser="true" :isActive="isActive" />
+      </div>
     </div>
-
-    <div class="card-container" v-show="isLoaded">
-      <card-personal :isActive="isActive" />
-      <challenge />
-    </div>
-  </v-container>
+    <div class="str-content">
+      <main class="str-content-inr">
+        <div class="str-content-inr-center" v-show="!isLoaded">
+          <v-progress-circular
+            class="progress"
+            color="primary"
+            indeterminate />
+        </div>
+        <div class="str-content-inr-start" v-show="isLoaded">
+          <div class="challenge-container">
+            <card-challenge :challenge-name="'plank'" :challenge-txt="' 30日間続けることで美しいくびれを目指します'" />
+            <!-- <card-challenge :challenge-name="'pakapaka'"
+            :challenge-txt="' 30日間続けることで美しい脚を目指します'"
+            /> -->
+          </div>
+        </div>
+      </main>
+    <!-- /str-content --></div>
+  </div>
 </template>
 <script>
 import { mapActions,mapGetters } from 'vuex'
-import Top from '@/components/Top'
-import Challenge from '@/components/Challenge'
-import CardPersonal from '@/components/CardPersonal'
+import AppHeader from '@/components/AppHeader'
+import CardChallenge from '@/components/CardChallenge'
 
 export default {
   watchQuery: ['page','item','pse'],
   components: {
-    CardPersonal,
-    Top,
-    Challenge
+    AppHeader,
+    CardChallenge,
   },
   data() {
     return {
@@ -64,16 +70,13 @@ export default {
     const itemName = query.item || ''
     const isActive = itemName === ''? false:true
     return {
-      itemName,
+      // itemName,
       isActive
     }
   },
   async mounted(){
-    // let user
-    // if (!this.user) user = await this.$firebaseAuthCheck()
     const user = await this.$firebaseAuthCheck()
     if(!user){
-      // 未ログイン
       this.$router.push('/signin')
       return
     }
@@ -93,19 +96,8 @@ export default {
   },
 }
 </script>
-<style lang="scss" scoped>
-.progress-container{
-  flex:1;
-  height:100%;
-  justify-content:center;
-  align-items:center;
-}
-.card-container{
-  display:grid;
-  grid-template:
-  "header" auto
-  "content" 1fr/
-   1fr;
-  height:100%;
+<style lang="scss" scope>
+.challenge-container{
+  width: 100%;
 }
 </style>
