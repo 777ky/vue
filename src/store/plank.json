@@ -1,5 +1,7 @@
 {
-  "plank": {
+  "title":"plank",
+  "description":"plankの説明",
+  "list": {
     "1":{
       "day": 1,
       "text": "20",

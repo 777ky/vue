@@ -268,31 +268,54 @@ export default {
       this.$router.push({query:{item:this.name}})
 
       const user = await this.$firebaseAuthCheck()
+
+      // console.log('★startDateあるか', this.startDate)
       await Promise.all([
+        // ログインデータ保持ならGET_CREDENTIALをスキップ
         this.user
           ? Promise.resolve()
           : this.$store.dispatch('GET_CREDENTIAL',{
             user: this.user || user || null,
             name: this.name
           }),
-        this.startDate
-          ? Promise.resolve()
-          : this.$store.dispatch('GET_CHALLENGE_STATUS',{
-            user: this.user || user || null,
-            name: this.name
-          }),
+        // スタート日保持ならGET_CHALLENGE_STATUSをスキップ
+        // this.isSetting
+        //   ? Promise.resolve()
+        //   : this.$store.dispatch('GET_CHALLENGE_STATUS',{
+        //     user: this.user || user || null,
+        //     name: this.name
+        //   }),
+        // this.startDate
+        //   ? Promise.resolve()
+        //   : this.$store.dispatch('GET_CHALLENGE_STATUS',{
+        //     user: this.user || user || null,
+        //     name: this.name
+        //   }),
+
+        this.$store.dispatch('GET_CHALLENGE_STATUS',{
+          user: this.user || user || null,
+          name: this.name
+        }),
       ])
+
       this.$store.dispatch('LOAD_CHALLENGE_STATUS',{
         user: this.user || user || null,
         name: this.name
       })
+
       this.$store.dispatch('LOAD_CHALLENGE',{
         user: this.user || user || null,
         name: this.name
       })
 
+      // console.log('設定済みか',this.name,this.isSetting)
+      // console.log('+++++++++'+this.name+'/'+this.startDate)
+      // console.log('設定済みか',this.name,this.isSetting)
       if(this.isSetting){
+        // console.log('設定されている場合とおる')
         this.$store.dispatch('setTermDate',this.startDate)
+      }else{
+        this.$store.commit('setTermDate', 0)
       }
 
       if (!this.isChallengeLoaded) {
@@ -303,7 +326,6 @@ export default {
 
   },
   mounted(){
-
     if(this.routeQuery.item === this.name){
       this.initChallenge()
     }

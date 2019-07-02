@@ -79,7 +79,6 @@ export const mutations = {
     state.challenge = payload
   },
   setChallengeState(state,payload){
-    // console.log('チャレンジステイタスにisSetting書き込み',payload.isSetting)
     state.startDate = payload.date.toDate()
     state.isSetting = payload.isSetting
   },
@@ -100,9 +99,9 @@ export const actions = {
     // start日と今日との差日を求める（86,400,000ミリ秒＝１日）
     const start = new Date(startDate);
     const today = new Date();
-    // console.log(start)
+    console.log(start)
     const term = Math.floor((today - start) / 86400000)+1
-    // console.log(term)
+    console.log(term)
     commit('setTermDate', term)
 
   },
@@ -137,13 +136,33 @@ export const actions = {
 
   // 30日をセットする
   SET_30_DATE({ commit }, {user,name,date}){
-    console.log('SET_30_DATE')
+    console.log('SET_30_DATE_BATCH_VER')
     const data = require('./'+name+'.json')
     const batch = this.$firebaseStore().batch();
 
+    // batchで日付更新に変更
+    // data && Object.keys(data).forEach(key => {
+    //   const nestedContent = data[key];
+    //   if (typeof nestedContent === "object") {
+    //     Object.keys(nestedContent).forEach((docTitle,index) => {
+
+    //       const y = date.getFullYear()
+    //       const m = date.getMonth()
+    //       const d = date.getDate()+index
+
+    //       const ref = this.$usersRef.doc(user.uid).collection('challenge').doc(key).collection('list').doc(docTitle)
+
+    //       batch.update(ref, {
+    //        date:new Date(y,m,d),
+    //        check:false
+    //       });
+
+    //     });
+    //   }
+    // });
+
     data && Object.keys(data).forEach(key => {
       const nestedContent = data[key];
-      const ref = this.$usersRef.doc(user.uid)
 
       if (typeof nestedContent === "object") {
         Object.keys(nestedContent).forEach((docTitle,index) => {
@@ -151,11 +170,12 @@ export const actions = {
           const y = date.getFullYear()
           const m = date.getMonth()
           const d = date.getDate()+index
+          const ref = this.$usersRef.doc(user.uid)
 
           batch.set(ref, {
             [name]:{
-              [key]:{
-                [docTitle]:{
+              list:{
+                [index+1]:{
                   date:new Date(y,m,d),
                   check:false
                 }
@@ -173,42 +193,72 @@ export const actions = {
     })
   },
 
+  // 30日をセットする
+  SET_30_DATE_BK({ commit }, {user,name,date}){
+    console.log('SET_30_DATE')
+    const data = require('./'+name+'.json')
+
+    data && Object.keys(data).forEach(key => {
+      const nestedContent = data[key];
+      if (typeof nestedContent === "object") {
+        Object.keys(nestedContent).forEach((docTitle,index) => {
+
+          const y = date.getFullYear()
+          const m = date.getMonth()
+          const d = date.getDate()+index
+
+          this.$usersRef
+            .doc(user.uid)
+            .collection('challenge')
+            .doc(key)
+            .collection('list')
+            .doc(docTitle)
+            .update({
+              date:new Date(y,m,d),
+              check:false
+            })
+            .then((res) => {
+              console.log("SET_30_DATE_SUCCEED");
+            })
+            .catch((error) => {
+              console.error("SET_30_DATE_ERROR:", error);
+            })
+        });
+      }
+    });
+
+  },
+
   // 5.チャレンジを登録する
   SET_CHALLENGE({ commit,state,dispatch }, {user,name}) {
-      console.log('SET_CHALLENGE')
+      // batchに変更
+      console.log('SET_CHALLENGE_BATCH_VER')
       const data = require('./'+name+'.json')
       const date = new Date()
       const batch = this.$firebaseStore().batch();
 
       data && Object.keys(data).forEach(key => {
-        const nestedContent = data[key]
-        const ref = this.$usersRef.doc(user.uid)
+        const nestedContent = data[key];
 
         if (typeof nestedContent === "object") {
-
           Object.keys(nestedContent).forEach((docTitle,index) => {
 
             const y = date.getFullYear()
             const m = date.getMonth()
             const d = date.getDate()+index
+            const ref = this.$usersRef.doc(user.uid)
 
             batch.set(ref, {
               [name]:{
-                [key]:{
-                  [docTitle]:{
+                list:{
+                  [index+1]:{
                     ...nestedContent[docTitle],
                     date:new Date(y,m,d)
                   }
                 }
               }
-            },{merge:true})
+            },{merge:true});
           });
-        }else{
-          batch.set(ref, {
-            [name]:{
-              [key]:data[key]
-            }
-          },{merge:true})
         }
       });
 
@@ -219,6 +269,40 @@ export const actions = {
       })
   },
 
+  SET_CHALLENGE_BK({ commit,state,dispatch }, {user,name}) {
+    const data = require('./'+name+'.json')
+    const date = new Date()
+
+    data && Object.keys(data).forEach(key => {
+      const nestedContent = data[key];
+      if (typeof nestedContent === "object") {
+        Object.keys(nestedContent).forEach((docTitle,index) => {
+
+          this.$usersRef
+            .doc(user.uid)
+            .collection('challenge')
+            .doc(key)
+            .collection('list')
+            .doc(docTitle)
+            .set({
+              ...nestedContent[docTitle],
+            })
+            .then((res) => {
+              // 30日をセットする
+              dispatch('SET_30_DATE',{
+                user,
+                name,
+                date
+              })
+              // console.log("SET_CHALLENGE_SUCCEED");
+            })
+            .catch((error) => {
+              console.error("SET_CHALLENGE_SUCCEED_ERROR: ", error);
+            })
+        });
+      }
+    });
+},
 
   // 4.チャレンジステイタスをセットする
   SET_CHALLENGE_STATUS({ commit,state,dispatch }, {user,name,date,flag}){
@@ -233,7 +317,27 @@ export const actions = {
         }
       },{merge:true})
       .then(() => {
-        // console.log('setIsSetting=>'+flag)
+        // dispatch('setTermDate',date)
+        commit('setIsSetting',flag)
+        console.log("SET_CHALLENGE_STATUS_SUCCEED");
+      })
+      .catch((error) => {
+        console.error("SET_CHALLENGE_STATUS_ERROR: ", error);
+      })
+  },
+
+  // BKUP
+  SET_CHALLENGE_STATUS_BK({ commit,state,dispatch }, {user,name,date,flag}){
+
+    this.$usersRef
+      .doc(user.uid)
+      .collection('challenge')
+      .doc(name)
+      .set({
+        date,
+        isSetting:flag
+      })
+      .then(() => {
         // dispatch('setTermDate',date)
         commit('setIsSetting',flag)
         console.log("SET_CHALLENGE_STATUS_SUCCEED");
@@ -248,11 +352,11 @@ export const actions = {
 
     this.$usersRef
       .doc(user.uid)
-      .set({
-        [name]:{
-          isSetting:flag
-        }
-      },{merge:true})
+      .collection('challenge')
+      .doc(name)
+      .update({
+        isSetting:flag
+      })
       .then(() => {
         // TODO: stateのisSettingにもセット？
         commit('setTermDate', 0)
@@ -280,8 +384,6 @@ export const actions = {
 
   // 2.ユーザ情報とプランクをDBに登録する
   SET_CREDENTIAL({ commit,dispatch }, user){
-
-    // TODO:アイテム増えたらここを増やす
     const name = ['plank','pakapaka']
 
     // ユーザ情報をDBに書き込む
@@ -305,11 +407,12 @@ export const actions = {
 
   DELETE_USER({commit,dispatch },credential){
     let user = this.$firebaseAuth().currentUser;
+
+    console.log(credential)
+
     user.reauthenticateAndRetrieveDataWithCredential(credential).then(()=>{
-      user.delete().then(()=>{
+      user.delete().then(function() {
         console.log('deleted')
-        dispatch('signOut',false)
-        this.$router.push('/signin')
       }).catch(function(error) {
         console.log(error)
       });
@@ -317,13 +420,33 @@ export const actions = {
       console.log(error)
     });
 
-    this.$usersRef.doc(user.uid).delete().then(
-      ()=>{
-        console.log("Document successfully deleted!");
-      }).catch(error=>{
-        console.error(error)
-      })
+
+    // TODO:DBがうまく消えてくれない
+    // 一括削除がない・・・
+    // https://qiita.com/subaru44k/items/a88e638333b8d5cc29f2
+
+    // firestore.collection('messages').getDocuments().then((snapshot) {
+    //   for (DocumentSnapshot ds in snapshot.documents){
+    //     ds.reference.delete();
+    //   });
+    // });
+
+    // this.$usersRef.doc(user.uid).delete().then(
+    //   ()=>{
+    //     console.log("Document successfully deleted!");
+    //   }).catch(error=>{
+    //     console.error(error)
+    //   })
+
+
+    // TODO:setUserも空に
+    commit('setUser',false)
+    // this.$router.push('/signin')
+    // commit('signOut',false)
+
   },
+
+
 
   // 1.ユーザ情報を取得する
   async GET_CREDENTIAL({commit,state,dispatch},{user,name}){
@@ -349,85 +472,87 @@ export const actions = {
   async GET_CHALLENGE_STATUS({ commit,state }, {user,name}){
     console.log('GET_CHALLENGE_STATUS')
     if (!user) return
-
-    const snapshot = await this.$usersRef.doc(user.uid).get()
-
-    // this.$usersRef.doc(user.uid).get().then((snapshot)=>{
-    //   console.log(snapshot)
-    //   if (snapshot.exists){
-    //     commit('setChallengeState', snapshot.data()[name])
-    //   }else{
-    //     console.log('GET_CHALLENGE_STATUS_ERROR')
-    //   }
-    // })
+    const snapshot = await this.$usersRef
+      .doc(user.uid)
+      .collection('challenge')
+      .doc(name)
+      .get()
 
     if (snapshot.exists){
-      // console.log('^^^^^^^^^^^^'+snapshot.data()[name].isSetting)
-      commit('setChallengeState', snapshot.data()[name])
+      // チャレンジステイタス取得
+      commit('setChallengeState', snapshot.data())
     }else{
-      console.log('GET_CHALLENGE_STATUS_ERROR')
+      console.log('チャレンジステイタス取得失敗')
     }
+
   },
 
   // チャレンジステイタスを取得する
   LOAD_CHALLENGE_STATUS({ commit,state }, {user,name}){
-
-    // TODO:ここでdoc(user.uid)自体の更新を監視しているので
-    // 更新ある旅にstatus変わってしまう？
     console.log('LOAD_CHALLENGE_STATUS')
     if (!user) return
-
-      const unsubscribe = this.$usersRef
+    const unsubscribe = this.$usersRef
       .doc(user.uid)
+      .collection('challenge')
+      .doc(name)
       .onSnapshot(snapshot => {
-        // console.log('DB書き込みあるたびにステイタスを変える',snapshot.data()[name])
-        // console.log('DB書き込みあるたびにステイタスを変える',name,snapshot.data()[name].isSetting)
-        commit('setChallengeState',snapshot.data()[name])
+        console.log(snapshot.data())
+        commit('setChallengeState',snapshot.data())
       }, err => {
         console.log(err)
       });
+
   },
 
-    // チャレンジステイタスを取得する
-    async LOAD_CHALLENGE_STATUS_BK({ commit,state }, {user,name}){
-
-      console.log('LOAD_CHALLENGE_STATUS')
-      if (!user) return
-      const snapshot = await this.$usersRef.doc(user.uid).get()
-
-      if (snapshot.exists){
-        commit('setChallengeState', snapshot.data()[name])
-      }else{
-        console.log('LOAD_CHALLENGE_STATUS_ERROR')
-      }
-
-
-        // const unsubscribe = this.$usersRef
-        // .doc(user.uid)
-        // .onSnapshot(snapshot => {
-        //   // console.log('チャレンジステイタスあるか',snapshot.data()[name])
-        //   commit('setChallengeState',snapshot.data()[name])
-        // }, err => {
-        //   console.log(err)
-        // });
-    },
-
-  // チャレンジデータを取得
   LOAD_CHALLENGE({ commit,state }, {user,name}){
     console.log('LOAD_CHALLENGE')
     if (!user) return
 
+    // const unsubscribe2 = this.$usersRef
+    //   .doc(user.uid)
+    //   .onSnapshot(snapshot => {
+    //     const data = [];
+    //     console.log(snapshot.data()['plank'].list)
+    //     const list = snapshot.data()['plank'].list
+
+    //     const num = 2
+
+    //     this.$usersRef
+    //     .doc(user.uid)
+    //     .set({
+    //       pakapaka:{
+    //         [num]:{
+    //           check:true
+    //         }
+    //       }
+    //     },{merge:true})
+
+    //     // snapshot.forEach(doc => {
+    //     //   data.push({
+    //     //     ...doc.data(),
+    //     //     date:doc.data().date.toDate()
+    //     //   });
+    //     //   commit('setChallenge', data)
+    //     // });
+
+    //   }, err => {
+    //     console.log(err)
+    //   });
+
+
     const unsubscribe = this.$usersRef
       .doc(user.uid)
+      .collection('challenge')
+      .doc(name)
+      .collection('list')
+      .orderBy('day','asc')
       .onSnapshot(snapshot => {
         const data = [];
-        const list = snapshot.data()[name].list
 
-        Object.keys(list).forEach(key => {
-          // console.log(list[key])
+        snapshot.forEach(doc => {
           data.push({
-            ...list[key],
-            date:list[key].date.toDate()
+            ...doc.data(),
+            date:doc.data().date.toDate()
           });
           commit('setChallenge', data)
         });
@@ -440,24 +565,55 @@ export const actions = {
     // unsubscribe();
   },
 
-  // 実施完了したらcheckをtrueとする
+  LOAD_CHALLENGE_BK({ commit,state }, {user,name}){
+    console.log('LOAD_CHALLENGE')
+    if (!user) return
+
+    const unsubscribe = this.$usersRef
+      .doc(user.uid)
+      .collection('challenge')
+      .doc(name)
+      .collection('list')
+      .orderBy('day','asc')
+      .onSnapshot(snapshot => {
+        const data = [];
+
+        snapshot.forEach(doc => {
+          data.push({
+            ...doc.data(),
+            date:doc.data().date.toDate()
+          });
+          commit('setChallenge', data)
+        });
+
+      }, err => {
+        console.log(err)
+      });
+    // onSnapshotを止めるにはunsubscribe()を利用する
+    // Stop listening to changes
+    // unsubscribe();
+  },
+
   CHECK_CHALLENGE({ commit,state }, {user, key, check, name}){
     if (!user) return
     this.$usersRef
       .doc(user.uid)
-      .set({
-        [name]:{
-          list:{
-            [key]:{
-              check
-            }
-          }
-        }
-        },{merge:true}).then(() => {
+      .collection('challenge')
+      .doc(name)
+      .collection('list')
+      .doc(key.toString())
+      .update(
+        {
+          check
+        }).then(() => {
+
           console.log("CHECK_CHALLENGE_SUCCEED");
+
         }).catch((error) => {
+
           console.error("CHECK_CHALLENGE_ERROR: ", error);
       })
+
   },
 
 
