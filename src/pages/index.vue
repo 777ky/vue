@@ -1,7 +1,7 @@
 <template>
   <v-container class="index" fluid justify-center align-center>
 
-    
+
     <div v-show="!isLoaded" class="progress-container"
       style="display:flex;flex:1;height:100%;justify-content:center;align-items:center;"
     >
@@ -67,7 +67,6 @@ export default {
       itemName,
       isActive
     }
-
   },
   async mounted(){
     // let user

@@ -1,5 +1,7 @@
 {
-  "pakapaka": {
+  "title":"pakapaka",
+  "description":"pakapakaの説明",
+  "list": {
     "1":{
       "day": 1,
       "text": "20",
