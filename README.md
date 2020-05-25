@@ -18,6 +18,8 @@ Nuxt.jsはVueアプリケーションを作成するフレームワーク
 ```
 $ npm install -g vue-cli 
 $ vue init nuxt-community/starter-template nuxt_sample
+もしくは
+$ npx create-nuxt-app your-title
 $ cd nuxt_sample
 $ yarn install
 ```
@@ -52,7 +54,7 @@ vueはDOMに簡単にアクセスできたり自由度が高い分、大規模�
 * [CSS記述方法](_doc/CSS.md)
 * [Firestore Authを利用する](_doc/AUTH.md)
 * [@nuxtjs/pwaを利用する](_doc/PWA.md)
-* [firebaseにdeployする](_doc/FIREBASE FUNCTION.md)
+* [firebaseにdeployする](_doc/FIREBASE_FUNCTIONS.md)
 * [localstorageを利用する](_doc/LOCALSTORAGE.md)
 * [jestでtestする](_doc/TEST.md)
 * [storybookでコンポーネントを管理する](_doc/STORYBOOK.md)
